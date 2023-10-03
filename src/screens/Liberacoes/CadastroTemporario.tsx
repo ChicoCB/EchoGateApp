@@ -7,34 +7,41 @@ import FeatherIconButton from '../../components/common/FeatherIconButton';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 
+import TextButton from '../../components/common/TextButton';
 import CustomInput from '../../components/common/customInput';
 
 const CadastroTemporario = () => {
     const navigation = useNavigation<StackTypes>();
     const [text, onChangeText] = useState('');
-    const [date, setDate] = useState(new Date());
-    const [mode, setMode] = useState('date');
-    const [show, setShow] = useState(false);
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+    const [startTime, setStartTime] = useState(new Date());
+    const [endTime, setEndTime] = useState(new Date());
+    const [showStartDate, setShowStartDate] = useState(false);
+    const [showEndDate, setShowEndDate] = useState(false);
+    const [showStartTime, setShowStartTime] = useState(false);
+    const [showEndTime, setShowEndTime] = useState(false);
 
-    const onChange = (event: any, selectedDate: any) => {
-        const currentDate = selectedDate;
-        setShow(false);
-        setDate(currentDate);
+    const onChangeStartDate = (selectedDate: any) => {
+        setShowStartDate(false);
+        setStartDate(selectedDate);
     };
 
-    const showMode = (currentMode: any) => {
-        setShow(true);
-        setMode(currentMode);
+    const onChangeStartTime = (selectedDate: any) => {
+        setShowStartTime(false);
+        setStartTime(selectedDate);
     };
 
-    const showDatepicker = () => {
-        showMode('date');
+    const onChangeEndDate = (selectedDate: any) => {
+        setShowEndDate(false);
+        setEndDate(selectedDate);
     };
 
-    const showTimepicker = () => {
-        showMode('time');
+    const onChangeEndTime = (selectedDate: any) => {
+        setShowEndTime(false);
+        setEndTime(selectedDate);
     };
 
 
@@ -56,15 +63,68 @@ const CadastroTemporario = () => {
                             />
                         </View>
                         <View style={styles.inputContainer}>
-                            <Text style={styles.text}>Valido até:   </Text>
-                            <Button onPress={showDatepicker} title="Show date picker!" />
-                            {show && (
+                            <Text style={styles.text}>Início:   </Text>
+                            <TextButton
+                                sizeX="auto"
+                                text="Dia"
+                                backgroundColor={COLORS.blue}
+                                handlePress={() => setShowStartDate(true)}
+                            />
+                            {showStartDate && (
                                 <DateTimePicker
-                                    testID="dateTimePicker"
-                                    value={date}
+                                    testID="startDatePicker"
+                                    value={startDate}
                                     mode={'date'}
                                     is24Hour={true}
-                                    onChange={onChange}
+                                    onChange={onChangeStartDate}
+                                />
+                            )}
+                            <TextButton
+                                sizeX="auto"
+                                text="Horário"
+                                backgroundColor={COLORS.blue}
+                                handlePress={() => setShowStartTime(true)}
+                            />
+                            {showStartTime && (
+                                <DateTimePicker
+                                    testID="startTimePicker"
+                                    value={startTime}
+                                    mode={'time'}
+                                    is24Hour={true}
+                                    onChange={onChangeStartTime}
+                                />
+                            )}
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.text}>Fim:   </Text>
+                            <TextButton
+                                sizeX="auto"
+                                text="Dia"
+                                backgroundColor={COLORS.blue}
+                                handlePress={() => setShowEndDate(true)}
+                            />
+                            {showEndDate && (
+                                <DateTimePicker
+                                    testID="EndDatePicker"
+                                    value={endDate}
+                                    mode={'date'}
+                                    is24Hour={true}
+                                    onChange={onChangeEndDate}
+                                />
+                            )}
+                            <TextButton
+                                sizeX="auto"
+                                text="Horário"
+                                backgroundColor={COLORS.blue}
+                                handlePress={() => setShowEndTime(true)}
+                            />
+                            {showEndTime && (
+                                <DateTimePicker
+                                    testID="endTimePicker"
+                                    value={endTime}
+                                    mode={'time'}
+                                    is24Hour={true}
+                                    onChange={onChangeEndTime}
                                 />
                             )}
                         </View>
@@ -75,16 +135,13 @@ const CadastroTemporario = () => {
                                 featherIconName={"camera"}
                                 featherIconSize={30}
                                 featherIconColor={"black"} />
-                            <Text style={styles.text2}>Fotos</Text>
+                            <Text style={styles.text2}>Fotos de reconhecimento</Text>
                         </View>
-                        <View style={styles.buttonContainer}>
-                            <FeatherIconButton
-                                featherIconName={"check-square"}
-                                featherIconSize={30}
-                                featherIconColor={"green"}
-                            />
-                            <Text style={styles.text2}>Finalizar</Text>
-                        </View>
+                        <TextButton
+                            sizeX={"auto"}
+                            backgroundColor={COLORS.blue}
+                            text="Cadastrar"
+                        />
                     </View>
                 </View>
             </ScrollView>
@@ -96,7 +153,7 @@ const styles = StyleSheet.create({
     scrollContainer: {
         backgroundColor: "#fff",
         margin: 10,
-        marginTop: "20%",
+        marginTop: "10%",
         borderRadius: 5
     },
     input: {
@@ -109,6 +166,7 @@ const styles = StyleSheet.create({
     inputContainer: {
         flexDirection: "row",
         width: "100%",
+        justifyContent: "space-between"
     },
     container: {
         flex: 1,
@@ -148,7 +206,6 @@ const styles = StyleSheet.create({
     },
     btnsContainer: {
         width: "80%",
-        flexDirection: "row",
         justifyContent: "space-around",
         marginBottom: 20,
         marginTop: 30,
@@ -156,7 +213,8 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        marginBottom: 40
     }
 });
 

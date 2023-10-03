@@ -33,13 +33,6 @@ const ProfileDrawer = () => {
                     title: "Meu perfil",
                     drawerIcon: ({ color, size }) => <Feather name="user" color={color} size={size} />
                 }} />
-            <Drawer.Screen
-                name="drawerSignIn"
-                component={SignIn}
-                options={{
-                    title: "Logar",
-                    drawerIcon: ({ color, size }) => <Feather name="user" color={color} size={size} />
-                }} />
         </Drawer.Navigator>
     )
 }

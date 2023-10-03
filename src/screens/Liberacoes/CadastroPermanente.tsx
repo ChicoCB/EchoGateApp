@@ -6,6 +6,7 @@ import { COLORS, SIZES, FONT, icons } from "../../../constants";
 import FeatherIconButton from '../../components/common/FeatherIconButton';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
+import TextButton from '../../components/common/TextButton';
 
 import CustomInput from '../../components/common/customInput';
 
@@ -37,16 +38,13 @@ const CadastroPermanente = () => {
                                 featherIconName={"camera"}
                                 featherIconSize={30}
                                 featherIconColor={"black"} />
-                            <Text style={styles.text2}>Fotos</Text>
+                            <Text style={styles.text2}>Fotos de reconhecimento</Text>
                         </View>
-                        <View style={styles.buttonContainer}>
-                            <FeatherIconButton
-                                featherIconName={"check-square"}
-                                featherIconSize={30}
-                                featherIconColor={"green"}
-                            />
-                            <Text style={styles.text2}>Finalizar</Text>
-                        </View>
+                        <TextButton
+                            sizeX={"auto"}
+                            backgroundColor={COLORS.blue}
+                            text="Cadastrar"
+                        />
                     </View>
                 </View>
             </ScrollView>
@@ -106,8 +104,7 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     btnsContainer: {
-        width: "80%",
-        flexDirection: "row",
+        width: "100%",
         justifyContent: "space-around",
         marginBottom: 20,
         marginTop: 30,
@@ -115,7 +112,8 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        marginBottom: 100
     }
 });
 

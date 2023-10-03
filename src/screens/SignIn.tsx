@@ -5,8 +5,12 @@ import { useState } from 'react';
 
 import CustomInput from '../components/common/customInput';
 import TextButton from '../components/common/TextButton';
+import { useNavigation } from '@react-navigation/native';
+
+import { StackTypes } from '../routes/stacksignin.routes';
 
 const SignIn = () => {
+    const navigation = useNavigation<StackTypes>();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -36,6 +40,7 @@ const SignIn = () => {
                     sizeY={50}
                     backgroundColor={COLORS.blue}
                     text="Sign in"
+                    handlePress={() => { navigation.navigate("ProfileDrawer") }}
                 />
             </View>
             <TextButton
