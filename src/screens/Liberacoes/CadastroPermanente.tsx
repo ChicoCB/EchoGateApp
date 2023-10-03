@@ -3,9 +3,11 @@ import { StackTypes } from '../../routes/stackliberar.routes';
 
 import { COLORS, SIZES, FONT, icons } from "../../../constants";
 
-import GenericButton from '../../components/common/GenericButton';
+import FeatherIconButton from '../../components/common/FeatherIconButton';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
+
+import CustomInput from '../../components/common/customInput';
 
 const CadastroPermanente = () => {
     const navigation = useNavigation<StackTypes>();
@@ -20,24 +22,29 @@ const CadastroPermanente = () => {
             >
                 <Text style={styles.headerText}>Novo Cadastro</Text>
                 <View style={styles.container}>
-                    <View style={styles.inputsContainer}>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.text}>Nome:   </Text>
-                            <TextInput
-                                style={styles.input}
-                                onChangeText={onChangeText}
-                                value={text}
-                                placeholder='Seu nome'
-                            />
-                        </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.text}>Nome:   </Text>
+                        <CustomInput
+                            sizeX={"60%"}
+                            setValue={onChangeText}
+                            value={text}
+                            placeholder='Seu nome'
+                        />
                     </View>
                     <View style={styles.btnsContainer}>
                         <View style={styles.buttonContainer}>
-                            <GenericButton name={"camera"} size={30} color={"black"} handlePress={() => null} />
+                            <FeatherIconButton
+                                featherIconName={"camera"}
+                                featherIconSize={30}
+                                featherIconColor={"black"} />
                             <Text style={styles.text2}>Fotos</Text>
                         </View>
                         <View style={styles.buttonContainer}>
-                            <GenericButton name={"check-square"} size={30} color={"green"} handlePress={() => null} />
+                            <FeatherIconButton
+                                featherIconName={"check-square"}
+                                featherIconSize={30}
+                                featherIconColor={"green"}
+                            />
                             <Text style={styles.text2}>Finalizar</Text>
                         </View>
                     </View>
@@ -64,6 +71,7 @@ const styles = StyleSheet.create({
     inputContainer: {
         flexDirection: "row",
         width: "100%",
+        padding: 10,
     },
     container: {
         flex: 1,
@@ -83,11 +91,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginBottom: 40,
         paddingTop: 10,
-    },
-    inputsContainer: {
-        padding: 10,
-        width: "100%",
-
     },
     text: {
         padding: 20,

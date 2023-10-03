@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 import { COLORS, SIZES, FONT, icons } from '../../../constants';
 
 import { cadastroPermanente } from '../../../data/acessosPermanentes';
-import GenericButton from '../common/GenericButton';
+import FeatherIconButton from '../common/FeatherIconButton';
 
 const AcessoPermanenteItem = ({ name, data_ini, image }: cadastroPermanente) => {
     return (
@@ -17,7 +17,7 @@ const AcessoPermanenteItem = ({ name, data_ini, image }: cadastroPermanente) => 
                 <Text style={styles.text}>Nome: {name}</Text>
                 <Text style={styles.text}>Cadastrado em: {data_ini} </Text>
             </View>
-            <GenericButton name={"trash-2"} size={25} color={"red"} handlePress={() => null} />
+            <FeatherIconButton featherIconName={"trash-2"} featherIconColor={"red"} />
         </View>
     )
 }

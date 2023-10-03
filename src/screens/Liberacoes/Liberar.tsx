@@ -8,7 +8,9 @@ import AcessoPermanenteItem from '../../components/Cadastros/AcessoPermanenteIte
 import ListaTemporarios from '../../../data/acessosTemporarios';
 import AcessoTemporarioItem from '../../components/Cadastros/AcessoTemporarioItem';
 import FlatListSeparator from '../../components/common/FlatListSeparator';
-import GenericButton from '../../components/common/GenericButton';
+import TextButton from '../../components/common/TextButton';
+
+import FeatherIconButton from '../../components/common/FeatherIconButton';
 
 import { StackTypes } from '../../routes/stackliberar.routes';
 
@@ -41,11 +43,19 @@ const Liberar = () => {
             </View>
             <View style={styles.liberarButtonsContainer}>
                 <View style={styles.buttonContainer}>
-                    <GenericButton name={"plus-square"} size={35} color={"green"} handlePress={() => { navigation.navigate("CadastroPermanente") }} />
+                    <FeatherIconButton
+                        featherIconSize={35}
+                        featherIconName={"plus-square"}
+                        featherIconColor={"green"}
+                        handlePress={() => { navigation.navigate("CadastroPermanente") }} />
                     <Text style={styles.text2}>Permanente</Text>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <GenericButton name={"plus-square"} size={35} color={"green"} handlePress={() => { navigation.navigate("CadastroTemporario") }} />
+                    <FeatherIconButton
+                        featherIconSize={35}
+                        featherIconName={"plus-square"}
+                        featherIconColor={"green"}
+                        handlePress={() => { navigation.navigate("CadastroTemporario") }} />
                     <Text style={styles.text2}>Temporário</Text>
                 </View>
             </View>
@@ -93,7 +103,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         justifyContent: "center",
         alignItems: "center",
-    }
+    },
 });
 
 export default Liberar;

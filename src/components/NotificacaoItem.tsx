@@ -6,7 +6,7 @@ import { COLORS, SIZES, FONT, icons } from './../../constants';
 
 import { notificacao } from '../../data/notificacoes';
 
-import GenericButton from './common/GenericButton';
+import FeatherIconButton from './common/FeatherIconButton';
 
 const AcessoPermanenteItem = ({ data, conteudo }: notificacao) => {
     return (
@@ -17,7 +17,7 @@ const AcessoPermanenteItem = ({ data, conteudo }: notificacao) => {
             <View style={styles.textContainer}>
                 <Text>{data}: {conteudo}</Text>
             </View>
-            <GenericButton name={"trash-2"} size={25} color={"red"} handlePress={() => null} />
+            <FeatherIconButton featherIconName={"trash-2"} featherIconColor={"red"} />
         </View>
     )
 }

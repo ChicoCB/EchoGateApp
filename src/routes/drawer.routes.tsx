@@ -2,8 +2,10 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Feather } from '@expo/vector-icons';
 
 import BottomTabs from "./bottomTabs.routes";
-import StackCadastrar from "./stackcadastrar.routes";
+//import StackCadastrar from "./stackcadastrar.routes";
 import StackProfile from "./stackprofile.routes";
+import SignIn from "../screens/SignIn";
+
 
 import HeaderButton from "../components/common/HeaderButton";
 import { images } from "../../constants";
@@ -29,6 +31,13 @@ const ProfileDrawer = () => {
                 component={StackProfile}
                 options={{
                     title: "Meu perfil",
+                    drawerIcon: ({ color, size }) => <Feather name="user" color={color} size={size} />
+                }} />
+            <Drawer.Screen
+                name="drawerSignIn"
+                component={SignIn}
+                options={{
+                    title: "Logar",
                     drawerIcon: ({ color, size }) => <Feather name="user" color={color} size={size} />
                 }} />
         </Drawer.Navigator>

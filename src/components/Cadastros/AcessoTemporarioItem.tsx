@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 import { COLORS, SIZES, FONT, icons } from '../../../constants';
 
 import { cadastroTemporario } from '../../../data/acessosTemporarios';
-import GenericButton from '../common/GenericButton';
+import FeatherIconButton from '../common/FeatherIconButton';
 
 const AcessoTemporarioItem = ({ name, data_ini, data_fim, image }: cadastroTemporario) => {
     return (
@@ -18,7 +18,7 @@ const AcessoTemporarioItem = ({ name, data_ini, data_fim, image }: cadastroTempo
                 <Text style={styles.text}>Cadastrado em: {data_ini} </Text>
                 <Text style={styles.text}>Válido até: {data_fim} </Text>
             </View>
-            <GenericButton name={"trash-2"} size={25} color={"red"} handlePress={() => null} />
+            <FeatherIconButton featherIconName={"trash-2"} featherIconColor={"red"} />
         </View>
     )
 }

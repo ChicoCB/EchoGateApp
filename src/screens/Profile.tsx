@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image } from 'react-native';
 import { images, COLORS, FONT, SIZES, icons } from '../../constants';
 
-import GenericButton from '../components/common/GenericButton';
+import FeatherIconButton from '../components/common/FeatherIconButton';
 import { profile } from '../../data/profiles';
 import ListaProfiles from '../../data/profiles';
 
@@ -31,11 +31,17 @@ const Profile = () => {
                     </View>
                     <View style={styles.btnsContainer}>
                         <View style={styles.buttonContainer}>
-                            <GenericButton name={"edit"} size={30} color={"black"} handlePress={() => null} />
+                            <FeatherIconButton
+                                featherIconName={"edit"}
+                                featherIconSize={30}
+                            />
                             <Text style={styles.text2}>Alterar dados</Text>
                         </View>
                         <View style={styles.buttonContainer}>
-                            <GenericButton name={"camera"} size={30} color={"black"} handlePress={() => null} />
+                            <FeatherIconButton
+                                featherIconName={"camera"}
+                                featherIconSize={30}
+                            />
                             <Text style={styles.text2}>Alterar fotos</Text>
                         </View>
                     </View>
