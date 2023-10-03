@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Image } from 'react-native';
 import { StyleSheet } from "react-native";
 
-import { ViewStyle, TextStyle, ImageStyle } from 'react-native';
+import { ViewStyle } from 'react-native';
 
 import { SIZES } from '../../../constants';
 
@@ -24,6 +24,7 @@ const GenericButton = ({ name, size, color, handlePress }: props) => {
 }
 
 //Precisa estar fora da styleSheet, nao consegui fazer funcionar dentro (deve ter jeito mas n manjo de typescript)
+//(em javascript normal funfa dentro da stylesheet)
 const btnContainer = (size: number): ViewStyle => ({
     width: size,
     height: size,

@@ -16,16 +16,19 @@ export type StackTypes = StackNavigationProp<StackNavigation>;
 
 const StackLiberar = () => {
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator>
             <Stack.Screen
+                options={{ headerShown: false }}
                 name="liberar"
                 component={Liberar}
             />
             <Stack.Screen
+                options={{ headerTitle: "Cadastro Permanente" }}
                 name="CadastroPermanente"
                 component={CadastroPermanente}
             />
             <Stack.Screen
+                options={{ headerTitle: "Cadastro Temporário" }}
                 name="CadastroTemporario"
                 component={CadastroTemporario}
             />
