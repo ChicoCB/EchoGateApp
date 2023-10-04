@@ -37,19 +37,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginLeft: 5
     },
-    text: {
-        fontFamily: FONT.regular,
-        fontSize: SIZES.medium,
-        color: COLORS.secondary,
-        marginLeft: "10%"
-    },
-    btnImg: {
-        width: "15%",
-        height: "100%",
-        borderRadius: SIZES.small / 1.25,
-        marginBottom: 4,
-        marginLeft: 3
-    },
 });
 
 export default AcessoPermanenteItem;

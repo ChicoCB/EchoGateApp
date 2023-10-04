@@ -48,6 +48,15 @@ const SignIn = () => {
                 text="Esqueceu sua senha?"
                 textColor={COLORS.gray}
             />
+            <View style={styles.cadastroContainer}>
+                <Text style={styles.text}>Não possui uma conta? </Text>
+                <TextButton
+                    sizeX={"auto"}
+                    text="Cadastre-se já"
+                    textColor={COLORS.blue}
+                />
+            </View>
+
         </SafeAreaView>
     );
 }
@@ -73,17 +82,22 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     text: {
-        fontFamily: FONT.bold,
-        fontSize: SIZES.large,
-        color: COLORS.primary,
-        textAlign: "center"
+        fontFamily: FONT.regular,
+        fontSize: SIZES.medium,
+        color: COLORS.gray,
+        textAlign: "center",
+        textAlignVertical: "center"
     },
     text2: {
         fontFamily: FONT.regular,
         fontSize: SIZES.medium,
         color: COLORS.primary,
-        textAlign: "center"
+        textAlign: "center",
     },
+    cadastroContainer: {
+        flexDirection: "row",
+        marginTop: 50
+    }
 });
 
 export default SignIn;

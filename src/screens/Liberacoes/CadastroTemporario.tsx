@@ -46,10 +46,8 @@ const CadastroTemporario = () => {
 
 
     return (
-        <SafeAreaView>
-            <ScrollView
-                contentContainerStyle={styles.scrollContainer}
-            >
+        <SafeAreaView style={{ backgroundColor: COLORS.lightWhite }}>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <Text style={styles.headerText}>Novo Cadastro</Text>
                 <View style={styles.container}>
                     <View style={styles.inputsContainer}>
@@ -130,13 +128,12 @@ const CadastroTemporario = () => {
                         </View>
                     </View>
                     <View style={styles.btnsContainer}>
-                        <View style={styles.buttonContainer}>
-                            <FeatherIconButton
-                                featherIconName={"camera"}
-                                featherIconSize={30}
-                                featherIconColor={"black"} />
-                            <Text style={styles.text2}>Fotos de reconhecimento</Text>
-                        </View>
+                        <FeatherIconButton
+                            featherIconName={"camera"}
+                            featherIconSize={30}
+                            featherIconColor={"black"}
+                            caption='Fotos de reconhecimento'
+                        />
                         <TextButton
                             sizeX={"auto"}
                             backgroundColor={COLORS.blue}
@@ -173,11 +170,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    pfp: {
-        width: 170,
-        height: 170,
-        borderRadius: 10
-    },
     headerText: {
         fontFamily: FONT.bold,
         fontSize: SIZES.xLarge,
@@ -197,18 +189,10 @@ const styles = StyleSheet.create({
         fontSize: SIZES.large,
         color: COLORS.secondary,
     },
-    text2: {
-        fontFamily: FONT.bold,
-        fontSize: SIZES.medium,
-        color: COLORS.primary,
-        marginTop: 5,
-        textAlign: "center"
-    },
     btnsContainer: {
         width: "80%",
         justifyContent: "space-around",
-        marginBottom: 20,
-        marginTop: 30,
+        height: 200,
         alignItems: "center",
     },
     buttonContainer: {

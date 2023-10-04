@@ -18,64 +18,55 @@ const Liberar = () => {
     const navigation = useNavigation<StackTypes>();
 
     return (
-        <SafeAreaView>
-            <Text style={styles.text}>Cadastros Permanentes</Text>
+        <SafeAreaView style={{ backgroundColor: COLORS.lightWhite }}>
+            <Text style={styles.listHeaderText}>Cadastros Permanentes</Text>
             <View style={styles.listContainer}>
                 <FlatList
                     contentContainerStyle={{ paddingBottom: 40 }}
-                    style={styles.list}
+                    style={styles.flatList}
                     data={ListaPermanentes}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => <AcessoPermanenteItem {...item} />}
                     ItemSeparatorComponent={FlatListSeparator}
                 />
             </View>
-            <Text style={styles.text}>Cadastros Temporários</Text>
+            <Text style={styles.listHeaderText}>Cadastros Temporários</Text>
             <View style={styles.listContainer}>
                 <FlatList
                     contentContainerStyle={{ paddingBottom: 40 }}
-                    style={styles.list}
+                    style={styles.flatList}
                     data={ListaTemporarios}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => <AcessoTemporarioItem {...item} />}
                     ItemSeparatorComponent={FlatListSeparator}
                 />
             </View>
-            <View style={styles.liberarButtonsContainer}>
-                <View style={styles.buttonContainer}>
-                    <FeatherIconButton
-                        featherIconSize={35}
-                        featherIconName={"plus-square"}
-                        featherIconColor={"green"}
-                        handlePress={() => { navigation.navigate("CadastroPermanente") }} />
-                    <Text style={styles.text2}>Permanente</Text>
-                </View>
-                <View style={styles.buttonContainer}>
-                    <FeatherIconButton
-                        featherIconSize={35}
-                        featherIconName={"plus-square"}
-                        featherIconColor={"green"}
-                        handlePress={() => { navigation.navigate("CadastroTemporario") }} />
-                    <Text style={styles.text2}>Temporário</Text>
-                </View>
+            <View style={styles.btnsContainer}>
+                <FeatherIconButton
+                    featherIconSize={35}
+                    featherIconName={"plus-square"}
+                    featherIconColor={"green"}
+                    handlePress={() => { navigation.navigate("CadastroPermanente") }}
+                    caption="Permanente"
+                />
+                <FeatherIconButton
+                    featherIconSize={35}
+                    featherIconName={"plus-square"}
+                    featherIconColor={"green"}
+                    handlePress={() => { navigation.navigate("CadastroTemporario") }}
+                    caption="Temporário"
+                />
             </View>
         </SafeAreaView >
     );
 }
 
 const styles = StyleSheet.create({
-    text: {
+    listHeaderText: {
         fontFamily: FONT.bold,
         fontSize: SIZES.xLarge,
         color: COLORS.primary,
         marginTop: 20,
-        textAlign: "center"
-    },
-    text2: {
-        fontFamily: FONT.bold,
-        fontSize: SIZES.medium,
-        color: COLORS.primary,
-        marginTop: 5,
         textAlign: "center"
     },
     listContainer: {
@@ -87,22 +78,18 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: COLORS.black
     },
-    list: {
+    flatList: {
         backgroundColor: '#fff',
         borderRadius: 10,
         marginBottom: 5,
         padding: 10
     },
-    liberarButtonsContainer: {
+    btnsContainer: {
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
         marginTop: 30,
         marginBottom: 30
-    },
-    buttonContainer: {
-        justifyContent: "center",
-        alignItems: "center",
     },
 });
 

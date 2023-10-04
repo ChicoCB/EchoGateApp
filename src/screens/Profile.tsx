@@ -13,46 +13,46 @@ const Profile = () => {
     const profile_data = ListaProfiles[0];
 
     return (
-        <SafeAreaView>
-            <ScrollView
-                contentContainerStyle={{ backgroundColor: "#fff", margin: 10, borderRadius: 5 }}
-            >
+        <SafeAreaView style={{ backgroundColor: COLORS.lightWhite }}>
+            <View style={styles.profileContainer}>
                 <Text style={styles.headerText}>Seu perfil</Text>
-                <View style={styles.container}>
+                <View style={styles.infoContainer}>
                     <Image
                         style={styles.pfp}
                         source={profile_data.image}
                         resizeMode='cover'
                     />
-                    <View style={styles.textContainer}>
+                    <View style={styles.textInfoContainer}>
                         <Text style={styles.text}>Nome:   {profile_data.name}</Text>
                         <Text style={styles.text}>Email:   {profile_data.email}</Text>
                         <Text style={styles.text}>Cadastrado em:   {profile_data.data_cadastro}</Text>
                     </View>
                     <View style={styles.btnsContainer}>
-                        <View style={styles.buttonContainer}>
-                            <FeatherIconButton
-                                featherIconName={"edit"}
-                                featherIconSize={30}
-                            />
-                            <Text style={styles.text2}>Alterar dados</Text>
-                        </View>
-                        <View style={styles.buttonContainer}>
-                            <FeatherIconButton
-                                featherIconName={"camera"}
-                                featherIconSize={30}
-                            />
-                            <Text style={styles.text2}>Alterar fotos</Text>
-                        </View>
+                        <FeatherIconButton
+                            featherIconName={"edit"}
+                            featherIconSize={30}
+                            caption='Alterar Dados'
+                        />
+                        <FeatherIconButton
+                            featherIconName={"camera"}
+                            featherIconSize={30}
+                            caption='Alterar fotos'
+                        />
                     </View>
                 </View>
-            </ScrollView>
+            </View>
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    profileContainer: {
+        backgroundColor: "#fff",
+        margin: 10,
+        borderRadius: 5,
+        height: 600
+    },
+    infoContainer: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
         marginBottom: 40,
         padding: 10
     },
-    textContainer: {
+    textInfoContainer: {
         padding: 20,
     },
     text: {
@@ -79,13 +79,6 @@ const styles = StyleSheet.create({
         fontFamily: FONT.regular,
         fontSize: SIZES.large,
         color: COLORS.secondary,
-    },
-    text2: {
-        fontFamily: FONT.bold,
-        fontSize: SIZES.medium,
-        color: COLORS.primary,
-        marginTop: 5,
-        textAlign: "center"
     },
     btnsContainer: {
         width: "80%",
@@ -95,10 +88,6 @@ const styles = StyleSheet.create({
         marginTop: 30,
         alignItems: "center",
     },
-    buttonContainer: {
-        justifyContent: "center",
-        alignItems: "center"
-    }
 });
 
 export default Profile;
