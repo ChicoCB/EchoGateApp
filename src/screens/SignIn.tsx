@@ -18,7 +18,7 @@ const SignIn = () => {
     return (
         <SafeAreaView style={styles.container}>
             <Image
-                source={images.dummyLogo}
+                source={images.logo}
                 resizeMode='contain'
                 style={styles.logo}
             />
