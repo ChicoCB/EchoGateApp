@@ -4,13 +4,31 @@ import { Feather } from '@expo/vector-icons';
 import BottomTabs from "./bottomTabs.routes";
 //import StackCadastrar from "./stackcadastrar.routes";
 import StackProfile from "./stackprofile.routes";
-import SignIn from "../screens/SignIn";
+import { DrawerContentScrollView, DrawerItemList, DrawerItem, DrawerContentComponentProps } from "@react-navigation/drawer";
 
+import { COLORS } from "../../constants";
 
 import HeaderButton from "../components/common/HeaderButton";
 import { images } from "../../constants";
 
 const Drawer = createDrawerNavigator();
+
+import { StackTypes } from "../screens/SignUp";
+import { useNavigation } from "@react-navigation/native";
+
+const CustomDrawerContent = (props: DrawerContentComponentProps) => {
+    const navigation = useNavigation<StackTypes>();
+
+    return (
+        <DrawerContentScrollView {...props}>
+            <DrawerItemList {...props} />
+            <DrawerItem
+                label="Sair"
+                onPress={() => navigation.navigate("SignIn")}
+            />
+        </DrawerContentScrollView>
+    );
+}
 
 const ProfileDrawer = () => {
     return (
@@ -18,7 +36,9 @@ const ProfileDrawer = () => {
             screenOptions={{
                 headerRight: () => <HeaderButton iconUrl={images.profile} handlePress={() => null} />,
                 headerTitle: ""
-            }} >
+            }}
+            drawerContent={(props) => <CustomDrawerContent {...props} />}
+        >
             <Drawer.Screen
                 name="drawerHome"
                 component={BottomTabs}

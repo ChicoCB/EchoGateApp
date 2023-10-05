@@ -1,11 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native';
 
-import StackSignIn from './stacksignin.routes';
+import MainStack from './mainstack.routes';
 
 const Routes = () => {
     return (
         <NavigationContainer>
-            <StackSignIn />
+            <MainStack />
         </NavigationContainer>
     )
 }

@@ -1,15 +1,21 @@
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image } from 'react-native';
 import { images, COLORS, FONT, SIZES, icons } from '../../constants';
 
+import { StackNavigationProp } from '@react-navigation/stack';
+
 import { useState } from 'react';
 
 import CustomInput from '../components/common/customInput';
 import TextButton from '../components/common/TextButton';
 import { useNavigation } from '@react-navigation/native';
 
-import { StackTypes } from '../routes/stacksignin.routes';
+type StackNavigation = {
+    SignIn: undefined;
+}
 
-const SignIn = () => {
+export type StackTypes = StackNavigationProp<StackNavigation>;
+
+const SignUp = () => {
     const navigation = useNavigation<StackTypes>();
 
     const [username, setUsername] = useState("");
@@ -35,23 +41,14 @@ const SignIn = () => {
                 secureTextEntry={true}
             />
             <View style={styles.btnContainer}>
-                <TextButton
-                    sizeX={"100%"}
-                    sizeY={50}
-                    backgroundColor={COLORS.blue}
-                    text="Sign in"
-                    handlePress={() => { navigation.navigate("ProfileDrawer") }}
-                />
             </View>
-            <View style={styles.cadastroContainer}>
-                <Text style={styles.text}>Não possui uma conta? </Text>
-                <TextButton
-                    sizeX={"auto"}
-                    text="Cadastre-se já"
-                    textColor={COLORS.blue}
-                    handlePress={() => { navigation.navigate("SignUp") }}
-                />
-            </View>
+            <TextButton
+                sizeX={"100%"}
+                sizeY={"auto"}
+                backgroundColor={COLORS.blue}
+                text='Sign Up'
+                handlePress={() => navigation.navigate("SignIn")}
+            />
 
         </SafeAreaView>
     );
@@ -96,4 +93,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SignIn;
+export default SignUp;

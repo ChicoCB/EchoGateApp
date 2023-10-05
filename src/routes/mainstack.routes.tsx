@@ -1,33 +1,30 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import SignIn from '../screens/SignIn';
-import SignUp from '../screens/SignUp';
+import SignInStack from './stacksignin.routes';
+import ProfileDrawer from './drawer.routes';
 
 const Stack = createStackNavigator();
 
 type StackNavigation = {
-    SignUp: undefined;
     ProfileDrawer: undefined;
 }
 
 export type StackTypes = StackNavigationProp<StackNavigation>;
 
-const SignInStack = () => {
+const MainStack = () => {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen
-                name="SignIn"
-                component={SignIn}
-                options={{ headerShown: false }}
+                name="signInStack"
+                component={SignInStack}
             />
             <Stack.Screen
-                name="SignUp"
-                component={SignUp}
-                options={{ headerTitle: "Sign In" }}
+                name="ProfileDrawer"
+                component={ProfileDrawer}
             />
         </Stack.Navigator>
     )
 }
 
-export default SignInStack;
+export default MainStack;
