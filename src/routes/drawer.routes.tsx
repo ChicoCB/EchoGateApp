@@ -25,6 +25,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             <DrawerItem
                 label="Sair"
                 onPress={() => navigation.navigate("SignIn")}
+                icon={({ size, color }) => <Feather name="log-out" size={size} color={color} />}
             />
         </DrawerContentScrollView>
     );

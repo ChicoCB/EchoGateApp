@@ -8,7 +8,6 @@ import AcessoPermanenteItem from '../../components/Cadastros/AcessoPermanenteIte
 import ListaTemporarios from '../../../data/acessosTemporarios';
 import AcessoTemporarioItem from '../../components/Cadastros/AcessoTemporarioItem';
 import FlatListSeparator from '../../components/common/FlatListSeparator';
-import TextButton from '../../components/common/TextButton';
 
 import FeatherIconButton from '../../components/common/FeatherIconButton';
 
@@ -18,7 +17,7 @@ const Liberar = () => {
     const navigation = useNavigation<StackTypes>();
 
     return (
-        <SafeAreaView style={{ backgroundColor: COLORS.lightWhite }}>
+        <SafeAreaView style={{ backgroundColor: COLORS.lightWhite, height: "100%" }}>
             <Text style={styles.listHeaderText}>Cadastros Permanentes</Text>
             <View style={styles.listContainer}>
                 <FlatList
@@ -62,6 +61,7 @@ const Liberar = () => {
 }
 
 const styles = StyleSheet.create({
+
     listHeaderText: {
         fontFamily: FONT.bold,
         fontSize: SIZES.xLarge,
@@ -70,26 +70,32 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     listContainer: {
-        height: 200,
+        height: "30%",
         marginTop: 10,
         marginLeft: 5,
         marginRight: 5,
-        borderWidth: 1,
         borderRadius: 10,
-        borderColor: COLORS.black
+        elevation: 10, //Android sombra
+
+        //ios sombra (tem q testar)
+        shadowColor: COLORS.black,
+        shadowOpacity: 0.3,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowRadius: 4,
     },
     flatList: {
         backgroundColor: '#fff',
         borderRadius: 10,
-        marginBottom: 5,
         padding: 10
     },
     btnsContainer: {
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
-        marginTop: 30,
-        marginBottom: 30
+        marginTop: "10%",
     },
 });
 

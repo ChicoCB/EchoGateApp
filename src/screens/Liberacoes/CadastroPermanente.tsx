@@ -1,4 +1,6 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, TextInput, Image, Alert } from 'react-native';
+import * as ImagePicker from 'expo-image-picker'
+
 import { StackTypes } from '../../routes/stackliberar.routes';
 
 import { COLORS, SIZES, FONT, icons } from "../../../constants";
@@ -9,12 +11,60 @@ import { useState } from 'react';
 import TextButton from '../../components/common/TextButton';
 
 import CustomInput from '../../components/common/customInput';
+import Icon from 'react-native-vector-icons/Feather';
+
+import axios from 'axios';
+
+const convertToBase64StringArray = (imageAssets: ImagePicker.ImagePickerAsset[]) => {
+    let stringImages = [];
+
+    for (const imageAsset of imageAssets) {
+        stringImages.push(imageAsset.base64);
+    }
+
+    return stringImages;
+}
 
 const CadastroPermanente = () => {
     const navigation = useNavigation<StackTypes>();
-    const [text, onChangeText] = useState('');
-    const [number, onChangeNumber] = useState('');
+    const [name, onChangeName] = useState('');
+    const [imagesPicked, setImagesPicked] = useState(false);
+    const [selectedImages, setSelectedImages] = useState<(string | null | undefined)[]>([]);
 
+    const cadastrar = async () => {
+        if (name == "" || !imagesPicked) {
+            Alert.alert('Erro', 'Campos inválidos!')
+            return;
+        }
+        try {
+            await axios.post("http://192.168.0.173:3000/users/", { name: name, pictures: selectedImages });
+            Alert.alert('Sucesso', 'Cadastro realizado!');
+            setSelectedImages([]);
+            setImagesPicked(false);
+            onChangeName('');
+            navigation.navigate("Liberar");
+        } catch (error) {
+            alert(error)
+        }
+    }
+
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsMultipleSelection: true,
+            aspect: [9, 16],
+            quality: 1,
+            base64: true
+        });
+
+        if (!result.canceled) {
+            let stringImages = convertToBase64StringArray(result.assets);
+            setSelectedImages(stringImages);
+            setImagesPicked(true);
+        }
+    };
 
     return (
         <SafeAreaView style={{ backgroundColor: COLORS.lightWhite }}>
@@ -25,8 +75,8 @@ const CadastroPermanente = () => {
                         <Text style={styles.inputText}>Nome:   </Text>
                         <CustomInput
                             sizeX={"60%"}
-                            setValue={onChangeText}
-                            value={text}
+                            setValue={onChangeName}
+                            value={name}
                             placeholder='Seu nome'
                         />
                     </View>
@@ -34,13 +84,22 @@ const CadastroPermanente = () => {
                         <FeatherIconButton
                             featherIconName={"camera"}
                             featherIconSize={30}
-                            featherIconColor={"black"}
-                            caption="Fotos de reconhecimento"
+                            featherIconColor={COLORS.blue}
+                            caption='Fotos'
+                            handlePress={() => pickImage()}
                         />
+                        {imagesPicked &&
+                            <Icon
+                                name="check-square"
+                                color="green"
+                                size={35}
+                            />
+                        }
                         <TextButton
                             sizeX={"auto"}
                             backgroundColor={COLORS.blue}
                             text="Cadastrar"
+                            handlePress={() => cadastrar()}
                         />
                     </View>
                 </View>

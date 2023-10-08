@@ -6,7 +6,7 @@ import { SIZES, COLORS, FONT } from '../../../constants';
 interface props {
     sizeX?: DimensionValue;
     sizeY?: DimensionValue;
-    handlePress?: () => void;
+    handlePress?: () => Promise<void> | any;
     backgroundColor?: string;
     text?: string;
     textColor?: string;

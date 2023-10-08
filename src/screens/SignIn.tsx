@@ -9,11 +9,31 @@ import { useNavigation } from '@react-navigation/native';
 
 import { StackTypes } from '../routes/stacksignin.routes';
 
+import axios from 'axios';
+
+interface login {
+    email: string;
+    password: string;
+    navigation: StackTypes;
+}
+
+const signInPress = async ({ email, password, navigation }: login) => {
+    // try {
+    //      await axios.post("http://192.168.0.173:3000/users/", { name: username, password, email });
+    //      navigation.navigate("ProfileDrawer");
+    //      alert("Funfou");
+    // } catch (error) {
+    //     console.log(error);
+    // }
+
+    navigation.navigate("ProfileDrawer");
+}
+
 const SignIn = () => {
     const navigation = useNavigation<StackTypes>();
 
-    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
 
     return (
         <SafeAreaView style={styles.container}>
@@ -23,9 +43,9 @@ const SignIn = () => {
                 style={styles.logo}
             />
             <CustomInput
-                value={username}
-                setValue={setUsername}
-                placeholder={"Username"}
+                value={email}
+                setValue={setEmail}
+                placeholder={"Email"}
                 secureTextEntry={false}
             />
             <CustomInput
@@ -40,7 +60,7 @@ const SignIn = () => {
                     sizeY={50}
                     backgroundColor={COLORS.blue}
                     text="Sign in"
-                    handlePress={() => { navigation.navigate("ProfileDrawer") }}
+                    handlePress={() => { signInPress({ email, password, navigation }) }}
                 />
             </View>
             <View style={styles.cadastroContainer}>

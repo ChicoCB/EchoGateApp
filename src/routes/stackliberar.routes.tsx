@@ -10,6 +10,7 @@ const Stack = createStackNavigator();
 type StackNavigation = {
     CadastroPermanente: undefined;
     CadastroTemporario: undefined;
+    Liberar: undefined;
 }
 
 export type StackTypes = StackNavigationProp<StackNavigation>;
@@ -19,7 +20,7 @@ const StackLiberar = () => {
         <Stack.Navigator>
             <Stack.Screen
                 options={{ headerShown: false }}
-                name="liberar"
+                name="Liberar"
                 component={Liberar}
             />
             <Stack.Screen
