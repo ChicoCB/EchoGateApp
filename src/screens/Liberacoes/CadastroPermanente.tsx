@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, TextInput, Image, Alert } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, TextInput, Image, Alert, ActivityIndicator } from 'react-native';
 import * as ImagePicker from 'expo-image-picker'
 
 import { StackTypes } from '../../routes/stackliberar.routes';
@@ -30,6 +30,8 @@ const CadastroPermanente = () => {
     const [name, onChangeName] = useState('');
     const [imagesPicked, setImagesPicked] = useState(false);
     const [selectedImages, setSelectedImages] = useState<(string | null | undefined)[]>([]);
+    const [sendingImage, setSendingImage] = useState(false);
+
 
     const cadastrar = async () => {
         if (name == "" || !imagesPicked) {
@@ -37,7 +39,9 @@ const CadastroPermanente = () => {
             return;
         }
         try {
+            setSendingImage(true);
             await axios.post("http://192.168.0.173:3000/users/", { name: name, pictures: selectedImages });
+            setSendingImage(false);
             Alert.alert('Sucesso', 'Cadastro realizado!');
             setSelectedImages([]);
             setImagesPicked(false);
@@ -67,42 +71,48 @@ const CadastroPermanente = () => {
     };
 
     return (
-        <SafeAreaView style={{ backgroundColor: COLORS.lightWhite }}>
+        <SafeAreaView style={{ backgroundColor: COLORS.lightWhite, height: "100%" }}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-                <Text style={styles.headerText}>Novo Cadastro</Text>
-                <View style={styles.container}>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.inputText}>Nome:   </Text>
-                        <CustomInput
-                            sizeX={"60%"}
-                            setValue={onChangeName}
-                            value={name}
-                            placeholder='Seu nome'
-                        />
+                {sendingImage ?
+                    <ActivityIndicator size="large" color={COLORS.blue} />
+                    :
+                    <View>
+                        <Text style={styles.headerText}>Novo Cadastro</Text>
+                        <View style={styles.container}>
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.inputText}>Nome:   </Text>
+                                <CustomInput
+                                    sizeX={"60%"}
+                                    setValue={onChangeName}
+                                    value={name}
+                                    placeholder='Seu nome'
+                                />
+                            </View>
+                            <View style={styles.btnsContainer}>
+                                <FeatherIconButton
+                                    featherIconName={"camera"}
+                                    featherIconSize={30}
+                                    featherIconColor={COLORS.blue}
+                                    caption='Fotos'
+                                    handlePress={() => pickImage()}
+                                />
+                                {imagesPicked &&
+                                    <Icon
+                                        name="check-square"
+                                        color="green"
+                                        size={35}
+                                    />
+                                }
+                                <TextButton
+                                    sizeX={"auto"}
+                                    backgroundColor={COLORS.blue}
+                                    text="Cadastrar"
+                                    handlePress={() => cadastrar()}
+                                />
+                            </View>
+                        </View>
                     </View>
-                    <View style={styles.btnsContainer}>
-                        <FeatherIconButton
-                            featherIconName={"camera"}
-                            featherIconSize={30}
-                            featherIconColor={COLORS.blue}
-                            caption='Fotos'
-                            handlePress={() => pickImage()}
-                        />
-                        {imagesPicked &&
-                            <Icon
-                                name="check-square"
-                                color="green"
-                                size={35}
-                            />
-                        }
-                        <TextButton
-                            sizeX={"auto"}
-                            backgroundColor={COLORS.blue}
-                            text="Cadastrar"
-                            handlePress={() => cadastrar()}
-                        />
-                    </View>
-                </View>
+                }
             </ScrollView>
         </SafeAreaView>
     );
@@ -113,7 +123,9 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         margin: 10,
         marginTop: "20%",
-        borderRadius: 5
+        borderRadius: 5,
+        minHeight: 300,
+        justifyContent: "center",
     },
     inputContainer: {
         flexDirection: "row",
