@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { COLORS, SIZES, FONT, icons, SHADOWS } from '../../../constants';
+import { COLORS, SIZES, FONT } from '../../../constants';
 
 import ListaPermanentes from '../../../data/acessosPermanentes';
 import AcessoPermanenteItem from '../../components/Cadastros/AcessoPermanenteItem';
