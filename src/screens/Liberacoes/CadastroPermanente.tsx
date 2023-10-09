@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import TextButton from '../../components/common/TextButton';
 
+import LoadingComponent from '../../components/common/LoadingComponent';
 import CustomInput from '../../components/common/customInput';
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -74,7 +75,7 @@ const CadastroPermanente = () => {
         <SafeAreaView style={{ backgroundColor: COLORS.lightWhite, height: "100%" }}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 {sendingImage ?
-                    <ActivityIndicator size="large" color={COLORS.blue} />
+                    <LoadingComponent />
                     :
                     <View>
                         <Text style={styles.headerText}>Novo Cadastro</Text>
