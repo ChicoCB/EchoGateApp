@@ -140,7 +140,7 @@ const CadastroTemporario = () => {
         <SafeAreaView style={{ backgroundColor: COLORS.lightWhite, height: "100%" }}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 {sendingImage ? (
-                    <LoadingComponent />
+                    <LoadingComponent text='Processando...'/>
                 ) : (
                     <View>
                         {showStartDate && (

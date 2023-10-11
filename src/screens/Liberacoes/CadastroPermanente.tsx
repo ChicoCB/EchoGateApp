@@ -75,7 +75,7 @@ const CadastroPermanente = () => {
         <SafeAreaView style={{ backgroundColor: COLORS.lightWhite, height: "100%" }}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 {sendingImage ?
-                    <LoadingComponent />
+                    <LoadingComponent text='Processando...' />
                     :
                     <View>
                         <Text style={styles.headerText}>Novo Cadastro</Text>

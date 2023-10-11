@@ -4,10 +4,14 @@ import { StyleSheet } from "react-native";
 
 import { COLORS, FONT, SIZES } from '../../../constants';
 
-const LoadingComponent = () => {
+interface props {
+    text: string;
+}
+
+const LoadingComponent = ({ text }: props) => {
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Processando...</Text>
+            <Text style={styles.text}>{text}</Text>
             <ActivityIndicator size="large" color={COLORS.blue} />
         </View>
     )
