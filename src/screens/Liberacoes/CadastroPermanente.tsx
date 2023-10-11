@@ -41,7 +41,7 @@ const CadastroPermanente = () => {
         }
         try {
             setSendingImage(true);
-            await axios.post("http://192.168.0.173:3000/users/", { name: name, pictures: selectedImages });
+            await axios.post("http://10.181.28.13:3000/users/", { name: name, pictures: selectedImages });
             setSendingImage(false);
             Alert.alert('Sucesso', 'Cadastro realizado!');
             setSelectedImages([]);

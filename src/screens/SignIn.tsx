@@ -27,16 +27,20 @@ const SignIn = () => {
     const signInPress = async () => {
         try {
             setIsLoggingIn(true);
-            const accessToken = await axios.post("http://192.168.0.173:3000/users/login", { email: email, password: password });
+            const accessToken = await axios.post("http://10.181.28.13:3000/users/login", { email: email, password: password });
             console.log(accessToken.data.token)
             await AsyncStorage.setItem('token', accessToken.data.token);
             await AsyncStorage.setItem('remember', rememberCheckBox ? "true" : "false") //Precisa ser assim pq so armazena string
-            setIsLoggingIn(false);
+            setPassword("");
+            setEmail("");
+            setRememberCheckBox(false);
             navigation.navigate("ProfileDrawer");
 
         } catch (error) {
             console.log(error);
             Alert.alert("Erro", "Credenciais incorretas.")
+        } finally {
+            setIsLoggingIn(false);
         }
     }
 

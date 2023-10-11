@@ -80,7 +80,7 @@ const CadastroTemporario = () => {
             formatedUntilDate.setFullYear(endDate.getFullYear());
 
             setSendingImage(true);
-            await axios.post("http://192.168.0.173:3000/users/", { name: name, validFrom: formatedFromDate, validUntil: formatedUntilDate });
+            await axios.post("http://10.181.28.13:3000/users/", { name: name, validFrom: formatedFromDate, validUntil: formatedUntilDate });
             setSendingImage(false);
             Alert.alert('Sucesso', 'Cadastro realizado!')
             navigation.navigate("Liberar");
@@ -140,7 +140,7 @@ const CadastroTemporario = () => {
         <SafeAreaView style={{ backgroundColor: COLORS.lightWhite, height: "100%" }}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 {sendingImage ? (
-                    <LoadingComponent text='Processando...'/>
+                    <LoadingComponent text='Processando...' />
                 ) : (
                     <View>
                         {showStartDate && (

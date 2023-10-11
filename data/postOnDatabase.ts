@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios, { AxiosRequestConfig } from "axios";
 
-const SERVER_ROUTE = "http://192.168.0.173:3000";
+const SERVER_ROUTE = "http://10.181.28.13:3000";
 
 const postOnDatabase = (endpoint: string, dataToPost: any) => {
     const [isLoading, setIsLoading] = useState(false);

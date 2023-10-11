@@ -11,18 +11,14 @@ import { useNavigation } from '@react-navigation/native';
 
 import axios from 'axios';
 
+import LoadingComponent from '../components/common/LoadingComponent';
+import { Alert } from 'react-native';
+
 type StackNavigation = {
     SignIn: undefined;
 }
 
 export type StackTypes = StackNavigationProp<StackNavigation>;
-
-interface props {
-    username: string;
-    password: string;
-    email: string;
-    navigation: StackTypes;
-}
 
 const validInputs = (username: string, password: string, email: string) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -34,64 +30,74 @@ const validInputs = (username: string, password: string, email: string) => {
     return true;
 }
 
-const createUser = async ({ username, password, email, navigation }: props) => {
-
-    if (!validInputs(username, password, email)) {
-        alert("Campos inválidos.");
-        return;
-    }
-
-    try {
-        await axios.post("http://192.168.0.173:3000/users/", { name: username, password, email });
-        navigation.navigate("SignIn");
-        alert("Funfou");
-    } catch (error) {
-        alert(error);
-    }
-}
-
 const SignUp = () => {
     const navigation = useNavigation<StackTypes>();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
+    const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+    const createUser = async () => {
+
+        if (!validInputs(username, password, email)) {
+            alert("Campos inválidos.");
+            return;
+        }
+
+        try {
+            setIsLoggingIn(true);
+            await axios.post("http://10.181.28.13:3000/users/", { name: username, password, email });
+            navigation.navigate("SignIn");
+            Alert.alert("Sucesso", "Cadastro realizado!")
+        } catch (error) {
+            alert(error);
+        } finally {
+            setIsLoggingIn(false);
+        }
+    }
 
     return (
-        <SafeAreaView style={styles.container}>
-            <Image
-                source={images.logo}
-                resizeMode='contain'
-                style={styles.logo}
-            />
-            <CustomInput
-                value={username}
-                setValue={setUsername}
-                placeholder={"Username"}
-                secureTextEntry={false}
-            />
-            <CustomInput
-                value={email}
-                setValue={setEmail}
-                placeholder={"Email"}
-                secureTextEntry={false}
-            />
-            <CustomInput
-                value={password}
-                setValue={setPassword}
-                placeholder={"Password"}
-                secureTextEntry={true}
-            />
-            <View style={styles.btnContainer}>
-            </View>
-            <TextButton
-                sizeX={"100%"}
-                sizeY={"auto"}
-                backgroundColor={COLORS.blue}
-                text='Sign Up'
-                handlePress={async () => await createUser({ username, password, email, navigation })}
-            />
+        <SafeAreaView style={{ backgroundColor: COLORS.lightWhite }}>
+            {isLoggingIn ? (
+                <LoadingComponent text='Cadastrando...' />
+            ) : (
+                <View style={styles.container}>
+                    <Image
+                        source={images.logo}
+                        resizeMode='contain'
+                        style={styles.logo}
+                    />
+                    <CustomInput
+                        value={username}
+                        setValue={setUsername}
+                        placeholder={"Username"}
+                        secureTextEntry={false}
+                    />
+                    <CustomInput
+                        value={email}
+                        setValue={setEmail}
+                        placeholder={"Email"}
+                        secureTextEntry={false}
+                    />
+                    <CustomInput
+                        value={password}
+                        setValue={setPassword}
+                        placeholder={"Password"}
+                        secureTextEntry={true}
+                    />
+                    <View style={styles.btnContainer}>
+                    </View>
+                    <TextButton
+                        sizeX={"100%"}
+                        sizeY={"auto"}
+                        backgroundColor={COLORS.blue}
+                        text='Sign Up'
+                        handlePress={async () => await createUser()}
+                    />
 
+                </View>
+            )}
         </SafeAreaView>
     );
 }
