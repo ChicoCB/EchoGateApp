@@ -8,7 +8,7 @@ import { useState } from 'react';
 import CustomInput from '../components/common/customInput';
 import TextButton from '../components/common/TextButton';
 import { useNavigation } from '@react-navigation/native';
-
+import { SERVER_IP } from '../../constants';
 import axios from 'axios';
 
 import LoadingComponent from '../components/common/LoadingComponent';
@@ -47,7 +47,7 @@ const SignUp = () => {
 
         try {
             setIsLoggingIn(true);
-            await axios.post("http://10.181.28.13:3000/users/", { name: username, password, email });
+            await axios.post(`http://${SERVER_IP}/users`, { name: username, password, email });
             navigation.navigate("SignIn");
             Alert.alert("Sucesso", "Cadastro realizado!")
         } catch (error) {

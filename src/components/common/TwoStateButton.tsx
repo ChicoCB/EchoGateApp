@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, DimensionValue, ViewStyle } from 'react-native';
+import { TouchableOpacity, StyleSheet, DimensionValue, ViewStyle, View, Text } from 'react-native';
 import { useState } from 'react';
 
 import { SIZES, COLORS, FONT } from '../../../constants';
@@ -11,27 +11,34 @@ interface props {
     featherIconName2: string;
     featherIconSize?: number;
     featherIconColor?: string;
+    caption1?: string;
+    caption2?: string;
     handlePress?: () => void;
 }
 
-const TwoStateButton = ({ featherIconName1, featherIconName2, featherIconSize = 24, featherIconColor = "black", handlePress = () => null }: props) => {
+const TwoStateButton = ({ featherIconName1, featherIconName2, featherIconSize = 24, featherIconColor = "black", caption1 = "", caption2 = "", handlePress = () => null }: props) => {
 
     const [toggle, setToggle] = useState(false);
     let currentIcon = "";
+    let currentCaption = "";
 
     toggle ? (currentIcon = featherIconName1) : (currentIcon = featherIconName2)
+    toggle ? (currentCaption = caption1) : (currentCaption = caption2)
 
     return (
-        <TouchableOpacity
-            style={button(featherIconSize)}
-            onPress={() => { handlePress; setToggle(!toggle) }}>
-            <Icon
-                style={styles.btnImg}
-                name={currentIcon}
-                size={featherIconSize}
-                color={featherIconColor}
-            />
-        </TouchableOpacity>
+        <View style={styles.container}>
+            <TouchableOpacity
+                style={button(featherIconSize)}
+                onPress={() => { handlePress; setToggle(!toggle) }}>
+                <Icon
+                    style={styles.btnImg}
+                    name={currentIcon}
+                    size={featherIconSize}
+                    color={featherIconColor}
+                />
+            </TouchableOpacity>
+            {currentCaption !== "" && <Text style={styles.caption}>{currentCaption}</Text>}
+        </View>
     )
 }
 
@@ -48,6 +55,17 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
     },
+    container: {
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    caption: {
+        fontFamily: FONT.regular,
+        fontSize: SIZES.medium,
+        color: COLORS.primary,
+        marginTop: 5,
+        textAlign: "center"
+    }
 });
 
 export default TwoStateButton;

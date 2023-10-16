@@ -13,7 +13,7 @@ import TextButton from '../../components/common/TextButton';
 import LoadingComponent from '../../components/common/LoadingComponent';
 import CustomInput from '../../components/common/customInput';
 import Icon from 'react-native-vector-icons/Feather';
-
+import { SERVER_IP } from '../../../constants';
 import axios from 'axios';
 
 const convertToBase64StringArray = (imageAssets: ImagePicker.ImagePickerAsset[]) => {
@@ -41,8 +41,8 @@ const CadastroPermanente = () => {
         }
         try {
             setSendingImage(true);
-            await axios.post("http://10.181.28.13:3000/users/", { name: name, pictures: selectedImages });
-            setSendingImage(false);
+            await axios.post(`http://${SERVER_IP}/users/`, { name: name, pictures: selectedImages, validFrom: new Date() });
+            //FUSO HORARIO TA ERRADO
             Alert.alert('Sucesso', 'Cadastro realizado!');
             setSelectedImages([]);
             setImagesPicked(false);
@@ -50,6 +50,8 @@ const CadastroPermanente = () => {
             navigation.navigate("Liberar");
         } catch (error) {
             alert(error)
+        } finally {
+            setSendingImage(false);
         }
     }
 

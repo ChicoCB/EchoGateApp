@@ -1,60 +1,172 @@
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, FlatList } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import { COLORS, SIZES, FONT } from '../../../constants';
 
-import ListaPermanentes from '../../../data/acessosPermanentes';
-import AcessoPermanenteItem from '../../components/Cadastros/AcessoPermanenteItem';
-import ListaTemporarios from '../../../data/acessosTemporarios';
-import AcessoTemporarioItem from '../../components/Cadastros/AcessoTemporarioItem';
+import AcessoPermanenteItem from '../../components/Cadastros/CadastroPermanenteItem';
+import AcessoTemporarioItem from '../../components/Cadastros/CadastroTemporarioItem';
 import FlatListSeparator from '../../components/common/FlatListSeparator';
 
 import FeatherIconButton from '../../components/common/FeatherIconButton';
 
 import { StackTypes } from '../../routes/stackliberar.routes';
+import useGetFromDatabase from '../../../data/getFromDatabase';
+import { useEffect, useState } from 'react';
+import LoadingComponent from '../../components/common/LoadingComponent';
+import { SERVER_IP } from '../../../constants';
+import axios, { AxiosRequestConfig } from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React from 'react';
+
+const getListaPermanentes = (ListaCadastros: any) => {
+    const ListaPermanentes = [];
+    if (ListaCadastros != null) {
+        for (const cadastro of ListaCadastros) {
+            if (cadastro.validUntil == null && cadastro.validFrom != null) {
+                ListaPermanentes.push(cadastro);
+            }
+        }
+    }
+
+    return ListaPermanentes;
+}
+
+const getListaTemporarios = (ListaCadastros: any) => {
+    const ListaPermanentes = [];
+    if (ListaCadastros != null) {
+        for (const cadastro of ListaCadastros) {
+            if (cadastro.validUntil != null && cadastro.validFrom != null) {
+                ListaPermanentes.push(cadastro);
+            }
+        }
+    }
+
+    return ListaPermanentes;
+}
 
 const Liberar = () => {
     const navigation = useNavigation<StackTypes>();
+    const { data, isLoading: isFetching, error } = useGetFromDatabase("users/all");
+
+    const [isUpdatingPerms, setIsUpdatingPerms] = useState(false);
+    const [isUpdatingTemps, setIsUpdatingTemps] = useState(false);
+    const [ListaPermanentes, setListaPermanentes] = useState<any>([]);
+    const [ListaTemporarios, setListaTemporarios] = useState<any>([]);
+
+    useEffect(() => {
+        if (data) {
+            setListaPermanentes(getListaPermanentes(data));
+            setListaTemporarios(getListaTemporarios(data));
+        }
+    }, [data])
+
+    useFocusEffect(React.useCallback(() => {
+        console.log("Callback");
+        updateListaPermanentes();
+        updateListaTemporarios();
+    }, []))
+
+    const updateListaPermanentes = async () => {
+        console.log("update perms")
+        const token = await AsyncStorage.getItem('token');
+        const options: AxiosRequestConfig<any> = {
+            method: "get",
+            url: `http://${SERVER_IP}/users/all`,
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        };
+
+        try {
+            setIsUpdatingPerms(true);
+            const response = await axios.request(options);
+            setListaPermanentes(getListaPermanentes(response.data));
+            // console.log(ListaPermanentes);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsUpdatingPerms(false);
+        }
+    }
+
+    const updateListaTemporarios = async () => {
+        console.log("update temps")
+        const token = await AsyncStorage.getItem('token');
+        const options: AxiosRequestConfig<any> = {
+            method: "get",
+            url: `http://${SERVER_IP}/users/all`,
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        };
+
+        try {
+            setIsUpdatingTemps(true);
+            const response = await axios.request(options);
+            setListaTemporarios(getListaTemporarios(response.data));
+            //console.log(ListaPermanentes);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsUpdatingTemps(false);
+        }
+    }
 
     return (
         <SafeAreaView style={{ backgroundColor: COLORS.lightWhite, height: "100%" }}>
-            <Text style={styles.listHeaderText}>Cadastros Permanentes</Text>
-            <View style={styles.listContainer}>
-                <FlatList
-                    contentContainerStyle={{ paddingBottom: 40 }}
-                    style={styles.flatList}
-                    data={ListaPermanentes}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => <AcessoPermanenteItem {...item} />}
-                    ItemSeparatorComponent={FlatListSeparator}
-                />
-            </View>
-            <Text style={styles.listHeaderText}>Cadastros Temporários</Text>
-            <View style={styles.listContainer}>
-                <FlatList
-                    contentContainerStyle={{ paddingBottom: 40 }}
-                    style={styles.flatList}
-                    data={ListaTemporarios}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => <AcessoTemporarioItem {...item} />}
-                    ItemSeparatorComponent={FlatListSeparator}
-                />
-            </View>
-            <View style={styles.btnsContainer}>
-                <FeatherIconButton
-                    featherIconSize={35}
-                    featherIconName={"plus-square"}
-                    featherIconColor={"green"}
-                    handlePress={() => { navigation.navigate("CadastroPermanente") }}
-                    caption="Permanente"
-                />
-                <FeatherIconButton
-                    featherIconSize={35}
-                    featherIconName={"plus-square"}
-                    featherIconColor={"green"}
-                    handlePress={() => { navigation.navigate("CadastroTemporario") }}
-                    caption="Temporário"
-                />
+            <View style={{ height: "100%" }}>
+                <Text style={styles.listHeaderText}>Cadastros Permanentes</Text>
+                <View style={styles.listContainer}>
+                    {isFetching || isUpdatingPerms ? (
+                        <LoadingComponent text="Carregando..." />
+                    ) : (
+                        <FlatList
+                            contentContainerStyle={{ paddingBottom: 40 }}
+                            style={styles.flatList}
+                            data={ListaPermanentes}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({ item }) => <AcessoPermanenteItem {...item} atualizarLista={() => updateListaPermanentes()} />}
+                            ItemSeparatorComponent={FlatListSeparator}
+                        />
+                    )}
+                </View>
+                <Text style={styles.listHeaderText}>Cadastros Temporários</Text>
+                <View style={styles.listContainer}>
+                    {isFetching || isUpdatingTemps ? (
+                        <LoadingComponent text="Carregando..." />
+                    ) : (
+                        <FlatList
+                            contentContainerStyle={{ paddingBottom: 80, paddingTop: 10 }}
+                            style={styles.flatList}
+                            data={ListaTemporarios}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({ item }) => <AcessoTemporarioItem {...item}
+                                atualizarLista={() => updateListaTemporarios()}
+                            />}
+                            ItemSeparatorComponent={FlatListSeparator}
+                        />
+                    )}
+                </View>
+                <View style={styles.btnsContainer}>
+                    <FeatherIconButton
+                        featherIconSize={35}
+                        featherIconName={"plus-square"}
+                        featherIconColor={"green"}
+                        handlePress={() => {
+                            navigation.navigate("CadastroPermanente");
+                        }}
+                        caption="Permanente"
+                    />
+                    <FeatherIconButton
+                        featherIconSize={35}
+                        featherIconName={"plus-square"}
+                        featherIconColor={"green"}
+                        handlePress={() => {
+                            navigation.navigate("CadastroTemporario");
+                        }}
+                        caption="Temporário"
+                    />
+                </View>
             </View>
         </SafeAreaView >
     );

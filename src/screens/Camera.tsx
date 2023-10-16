@@ -5,12 +5,8 @@ import ListaProfiles from '../../data/profiles';
 
 import FeatherIconButton from '../components/common/FeatherIconButton';
 import TwoStateButton from '../components/common/TwoStateButton';
-import { useNavigation } from '@react-navigation/native';
 
-import { StackTypes } from '../routes/homestack.routes';
-
-const Home = () => {
-    const navigation = useNavigation<StackTypes>();
+const Camera = () => {
 
     //Obter de alguma forma do perfil logado
     const profile_name = ListaProfiles[0].name;
@@ -21,32 +17,11 @@ const Home = () => {
                 style={styles.scrollContainer}
                 contentContainerStyle={{ justifyContent: "center" }}
             >
-                <View style={styles.container}>
-                    <Text style={styles.userName}>Olá {profile_name},</Text>
-                    <Text style={styles.welcomeMessage}>Bem vindo ao EchoGate</Text>
-                </View>
-                <View style={styles.cameraContainer}>
-                    <Text style={styles.cameraMessage}>Acesse sua câmera:</Text>
-                    <FeatherIconButton
-                        featherIconName='camera'
-                        featherIconColor='blue'
-                        featherIconSize={45}
-                        handlePress={() => navigation.navigate("Camera")}
-                    />
-                </View>
-                <View style={styles.fechaduraContainer}>
-                    <Text style={styles.fechaduraMessage}>Controle sua fechadura:</Text>
-                    <View style={styles.buttonContainer}>
-                        <TwoStateButton
-                            featherIconName1='unlock'
-                            featherIconName2='lock'
-                            featherIconColor='blue'
-                            featherIconSize={45}
-                            caption1='Travar'
-                            caption2='Destravar'
-                        />
-                    </View>
-                </View>
+                <Text style={styles.text}>Camera</Text>
+                <Image
+                    source={images.dummyCamera}
+                    resizeMode='cover'
+                />
             </ScrollView>
         </SafeAreaView >
     );
@@ -124,4 +99,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Home;
+export default Camera;

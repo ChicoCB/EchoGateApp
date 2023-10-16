@@ -9,26 +9,41 @@ import { useNavigation } from '@react-navigation/native';
 
 import { StackTypes } from '../routes/stacksignin.routes';
 
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import LoadingComponent from '../components/common/LoadingComponent';
-import { isLoaded } from 'expo-font';
+import { SERVER_IP } from '../../constants';
+import { Header } from '@react-navigation/stack';
+import useGetFromDatabase from '../../data/getFromDatabase';
 
 const SignIn = () => {
     const navigation = useNavigation<StackTypes>();
 
+    const [isLoggingIn, setIsLoggingIn] = useState(false);
+    const [isRemembered, setIsRemembered] = useState(false);
+
+    const checkIsRemembered = async () => {
+        try {
+            const remember = await AsyncStorage.getItem('remember');
+            console.log(remember)
+            return remember;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    //COMO COMPARAR PROMESSA COM STRING?
+    const userData = useGetFromDatabase("users");
+
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [rememberCheckBox, setRememberCheckBox] = useState(false);
-    const [isLoggingIn, setIsLoggingIn] = useState(false);
 
     const signInPress = async () => {
         try {
             setIsLoggingIn(true);
-            const accessToken = await axios.post("http://10.181.28.13:3000/users/login", { email: email, password: password });
-            console.log(accessToken.data.token)
+            const accessToken = await axios.post(`http://${SERVER_IP}/users/login`, { email: email, password: password });
             await AsyncStorage.setItem('token', accessToken.data.token);
             await AsyncStorage.setItem('remember', rememberCheckBox ? "true" : "false") //Precisa ser assim pq so armazena string
             setPassword("");

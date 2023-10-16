@@ -15,7 +15,7 @@ import * as ImagePicker from 'expo-image-picker'
 import axios from 'axios';
 
 import { Alert } from 'react-native';
-
+import { SERVER_IP } from '../../../constants';
 import Icon from 'react-native-vector-icons/Feather';
 import RNDateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 
@@ -80,13 +80,14 @@ const CadastroTemporario = () => {
             formatedUntilDate.setFullYear(endDate.getFullYear());
 
             setSendingImage(true);
-            await axios.post("http://10.181.28.13:3000/users/", { name: name, validFrom: formatedFromDate, validUntil: formatedUntilDate });
-            setSendingImage(false);
+            await axios.post(`http://${SERVER_IP}/users/`, { name: name, validFrom: formatedFromDate, validUntil: formatedUntilDate, pictures: selectedImages });
             Alert.alert('Sucesso', 'Cadastro realizado!')
             navigation.navigate("Liberar");
 
         } catch (error) {
             console.log(error);
+        } finally {
+            setSendingImage(false);
         }
     }
 
