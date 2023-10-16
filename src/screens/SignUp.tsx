@@ -47,7 +47,9 @@ const SignUp = () => {
 
         try {
             setIsLoggingIn(true);
+            console.log("Cadastrando...")
             await axios.post(`http://${SERVER_IP}/users`, { name: username, password, email });
+            console.log("Cadastrado.")
             navigation.navigate("SignIn");
             Alert.alert("Sucesso", "Cadastro realizado!")
         } catch (error) {

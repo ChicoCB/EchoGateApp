@@ -61,26 +61,26 @@ const Liberar = () => {
     }, [data])
 
     useFocusEffect(React.useCallback(() => {
-        console.log("Callback");
         updateListaPermanentes();
         updateListaTemporarios();
     }, []))
 
     const updateListaPermanentes = async () => {
-        console.log("update perms")
-        const token = await AsyncStorage.getItem('token');
-        const options: AxiosRequestConfig<any> = {
-            method: "get",
-            url: `http://${SERVER_IP}/users/all`,
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        };
-
         try {
+            console.log("Atualizando Lista de Permanentes...")
+            const token = await AsyncStorage.getItem('token');
+            const options: AxiosRequestConfig<any> = {
+                method: "get",
+                url: `http://${SERVER_IP}/users/all`,
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            };
+
             setIsUpdatingPerms(true);
             const response = await axios.request(options);
             setListaPermanentes(getListaPermanentes(response.data));
+            console.log("Lista de permanentes atualizada.")
             // console.log(ListaPermanentes);
         } catch (error) {
             console.log(error);
@@ -90,20 +90,20 @@ const Liberar = () => {
     }
 
     const updateListaTemporarios = async () => {
-        console.log("update temps")
-        const token = await AsyncStorage.getItem('token');
-        const options: AxiosRequestConfig<any> = {
-            method: "get",
-            url: `http://${SERVER_IP}/users/all`,
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        };
-
         try {
+            console.log("Atualizando Lista de Temporários...")
+            const token = await AsyncStorage.getItem('token');
+            const options: AxiosRequestConfig<any> = {
+                method: "get",
+                url: `http://${SERVER_IP}/users/all`,
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            };
             setIsUpdatingTemps(true);
             const response = await axios.request(options);
             setListaTemporarios(getListaTemporarios(response.data));
+            console.log("Lista de temporários atualizada.")
             //console.log(ListaPermanentes);
         } catch (error) {
             console.log(error);

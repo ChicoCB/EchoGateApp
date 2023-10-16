@@ -43,9 +43,13 @@ const SignIn = () => {
     const signInPress = async () => {
         try {
             setIsLoggingIn(true);
+            console.log("Obtendo token...")
             const accessToken = await axios.post(`http://${SERVER_IP}/users/login`, { email: email, password: password });
+            console.log("Token obtido.")
+            console.log("Armazenando localmente token e remember...")
             await AsyncStorage.setItem('token', accessToken.data.token);
             await AsyncStorage.setItem('remember', rememberCheckBox ? "true" : "false") //Precisa ser assim pq so armazena string
+            console.log("Token e remember armazenados.")
             setPassword("");
             setEmail("");
             setRememberCheckBox(false);

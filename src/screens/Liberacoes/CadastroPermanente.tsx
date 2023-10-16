@@ -41,8 +41,10 @@ const CadastroPermanente = () => {
         }
         try {
             setSendingImage(true);
+            console.log("Cadastrando permanente...")
             await axios.post(`http://${SERVER_IP}/users/`, { name: name, pictures: selectedImages, validFrom: new Date() });
             //FUSO HORARIO TA ERRADO
+            console.log("Cadastro realizado.")
             Alert.alert('Sucesso', 'Cadastro realizado!');
             setSelectedImages([]);
             setImagesPicked(false);

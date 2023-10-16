@@ -1,101 +1,93 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Image } from 'react-native';
 
 import { COLORS, FONT, SIZES, images } from '../../constants';
 import ListaProfiles from '../../data/profiles';
-
+import { useWindowDimensions } from 'react-native';
+import { ViewStyle } from 'react-native';
+import { ScaledSize } from 'react-native';
+import { useState } from 'react';
 import FeatherIconButton from '../components/common/FeatherIconButton';
 import TwoStateButton from '../components/common/TwoStateButton';
+import { TextInput } from 'react-native-gesture-handler';
+import CustomInput from '../components/common/customInput';
 
 const Camera = () => {
 
     //Obter de alguma forma do perfil logado
-    const profile_name = ListaProfiles[0].name;
+    const screenSize = useWindowDimensions();
+    const [text, onChangeText] = useState('');
 
     return (
-        <SafeAreaView style={{ backgroundColor: COLORS.lightWhite, height: "100%" }}>
-            <ScrollView
-                style={styles.scrollContainer}
-                contentContainerStyle={{ justifyContent: "center" }}
-            >
-                <Text style={styles.text}>Camera</Text>
+        <SafeAreaView style={styles.safeArea}>
+            <View style={cameraContainer(screenSize)}>
                 <Image
-                    source={images.dummyCamera}
-                    resizeMode='cover'
+                    source={images.noImageIcon}
+                    resizeMode='stretch'
+                    style={styles.camera}
                 />
-            </ScrollView>
+            </View>
+            <View style={btnTalkContainer(screenSize)}>
+                <FeatherIconButton
+                    featherIconName='mic'
+                    featherIconColor={COLORS.blue}
+                    featherIconSize={50}
+                    caption='Falar'
+                    captionStyle={{
+                        fontFamily: FONT.bold,
+                        fontSize: SIZES.medium,
+                        color: COLORS.blue,
+                        marginTop: 5,
+                        textAlign: "center",
+                    }}
+                />
+            </View>
+            <View style={btnTextContainer(screenSize)}>
+                <CustomInput
+                    value={text}
+                    setValue={onChangeText}
+                    placeholder='Texto para voz'
+                    sizeX="100%"
+                />
+            </View>
         </SafeAreaView >
     );
 }
 
+const cameraContainer = (screenSize: ScaledSize): ViewStyle => (
+    {
+        width: "100%",
+        height: screenSize.height - 170, //- tamanho da bottomTab
+        alignItems: "center",
+        justifyContent: "center"
+    }
+)
+
+const btnTalkContainer = (screenSize: ScaledSize): ViewStyle => (
+    {
+        position: "absolute",
+        top: screenSize.height - 280,
+        right: screenSize.width - 120
+    }
+)
+
+const btnTextContainer = (screenSize: ScaledSize): ViewStyle => (
+    {
+        position: "absolute",
+        top: screenSize.height - 260,
+        left: screenSize.width - 150
+    }
+)
+
 const styles = StyleSheet.create({
-    scrollContainer: {
-        backgroundColor: "#fff",
-        margin: 15,
-        borderRadius: 10,
+    safeArea: {
+        backgroundColor: COLORS.lightWhite,
+        height: "100%",
+        alignItems: "center",
+        justifyContent: "center"
     },
-    container: {
+    camera: {
         width: "100%",
-        padding: "2%",
-        margin: 20,
-        marginBottom: "30%"
-    },
-    userName: {
-        fontFamily: FONT.regular,
-        fontSize: SIZES.large,
-        color: COLORS.secondary,
-    },
-    welcomeMessage: {
-        fontFamily: FONT.bold,
-        fontSize: SIZES.xLarge,
-        color: COLORS.primary,
-        marginTop: 2,
-    },
-    cameraContainer: {
-        width: "100%",
-        marginTop: "5%",
-        flex: 1,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-around",
-    },
-    cameraImgContainer: {
-        width: "60%",
-        height: 350,
-        alignItems: "center",
-        justifyContent: "center",
-        overflow: "hidden",
-        marginTop: 20,
-    },
-    cameraMessage: {
-        fontFamily: FONT.bold,
-        fontSize: SIZES.xLarge,
-        color: COLORS.primary,
-        marginTop: 2,
-    },
-    fechaduraContainer: {
-        width: "100%",
-        marginTop: "10%",
-        flex: 1,
-        alignItems: "center",
-    },
-    fechaduraMessage: {
-        fontFamily: FONT.bold,
-        fontSize: SIZES.xLarge,
-        color: COLORS.primary,
-        marginTop: 2,
-        marginBottom: 20,
-    },
-    buttonContainer: {
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: 40
-    },
-    text: {
-        fontFamily: FONT.bold,
-        fontSize: SIZES.medium,
-        color: COLORS.primary,
-        marginTop: 5,
-        textAlign: "center"
+        height: "100%"
     }
 });
 

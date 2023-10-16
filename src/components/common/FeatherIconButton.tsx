@@ -5,15 +5,18 @@ import { SIZES, COLORS, FONT } from '../../../constants';
 
 import Icon from 'react-native-vector-icons/Feather';
 
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+
 interface props {
     featherIconName: string;
     featherIconSize?: number;
     featherIconColor?: string;
     caption?: string;
+    captionStyle?: TextStyle;
     handlePress?: () => void;
 }
 
-const FeatherIconButton = ({ featherIconName, featherIconSize = 24, featherIconColor = "black", caption = "", handlePress = () => null }: props) => {
+const FeatherIconButton = ({ featherIconName, featherIconSize = 24, featherIconColor = "black", caption = "", captionStyle = captionDefault(), handlePress = () => null }: props) => {
     return (
         <View style={styles.container}>
             <TouchableOpacity
@@ -26,7 +29,7 @@ const FeatherIconButton = ({ featherIconName, featherIconSize = 24, featherIconC
                     color={featherIconColor}
                 />
             </TouchableOpacity>
-            {caption !== "" && <Text style={styles.caption}>{caption}</Text>}
+            {caption !== "" && <Text style={captionStyle}>{caption}</Text>}
         </View>
     )
 }
@@ -39,6 +42,16 @@ const button = (size: DimensionValue): ViewStyle => ({
     borderRadius: SIZES.small / 1.25,
 })
 
+const captionDefault = (): TextStyle => (
+    {
+        fontFamily: FONT.regular,
+        fontSize: SIZES.medium,
+        color: COLORS.primary,
+        marginTop: 5,
+        textAlign: "center"
+    }
+)
+
 const styles = StyleSheet.create({
     container: {
         justifyContent: "center",
@@ -48,13 +61,6 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
     },
-    caption: {
-        fontFamily: FONT.regular,
-        fontSize: SIZES.medium,
-        color: COLORS.primary,
-        marginTop: 5,
-        textAlign: "center"
-    }
 });
 
 export default FeatherIconButton;

@@ -80,7 +80,9 @@ const CadastroTemporario = () => {
             formatedUntilDate.setFullYear(endDate.getFullYear());
 
             setSendingImage(true);
+            console.log("Cadastrando temporário...")
             await axios.post(`http://${SERVER_IP}/users/`, { name: name, validFrom: formatedFromDate, validUntil: formatedUntilDate, pictures: selectedImages });
+            console.log("Cadasto realizado.")
             Alert.alert('Sucesso', 'Cadastro realizado!')
             navigation.navigate("Liberar");
 
