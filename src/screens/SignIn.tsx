@@ -16,7 +16,7 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import LoadingComponent from '../components/common/LoadingComponent';
 import { SERVER_IP } from '../../constants';
 import { Header } from '@react-navigation/stack';
-import useGetFromDatabase from '../../data/getFromDatabase';
+import useGetFromDatabase from '../../data/useGetFromDatabase';
 
 const SignIn = () => {
     const navigation = useNavigation<StackTypes>();

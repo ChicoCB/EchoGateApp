@@ -1,21 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, Image, View, Text } from 'react-native';
 import { StyleSheet } from "react-native";
 
 import { COLORS, SIZES, FONT, icons } from './../../constants';
 
-import { notificacao } from '../../data/notificacoes';
-
 import FeatherIconButton from './common/FeatherIconButton';
+import useGetFromDatabase from '../../data/useGetFromDatabase';
 
-const AcessoPermanenteItem = ({ data, conteudo }: notificacao) => {
+interface notificacao {
+    userId: string;
+    timestamp: string;
+    description: string;
+}
+
+const NotificacaoItem = ({ userId, timestamp, description }: notificacao) => {
+    const formattedDate = new Date(timestamp).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    });
+
+    const [userName, setUsername] = useState('');
+    const { data, isLoading, error } = useGetFromDatabase(`users/${userId}`);
+
+    useEffect(() => {
+        if (data) {
+
+        }
+    }, [data])
+
     return (
         <View style={styles.container}>
             <Image
                 source={icons.bell}
             />
             <View style={styles.textContainer}>
-                <Text>{data}: {conteudo}</Text>
+                <Text>{formattedDate}: {userId}</Text>
+                <Text>{description}</Text>
             </View>
             <FeatherIconButton featherIconName={"trash-2"} featherIconColor={"red"} />
         </View>
@@ -39,4 +60,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AcessoPermanenteItem;
+export default NotificacaoItem;

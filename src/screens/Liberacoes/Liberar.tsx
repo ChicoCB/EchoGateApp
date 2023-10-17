@@ -10,7 +10,7 @@ import FlatListSeparator from '../../components/common/FlatListSeparator';
 import FeatherIconButton from '../../components/common/FeatherIconButton';
 
 import { StackTypes } from '../../routes/stackliberar.routes';
-import useGetFromDatabase from '../../../data/getFromDatabase';
+import useGetFromDatabase from '../../../data/useGetFromDatabase';
 import { useEffect, useState } from 'react';
 import LoadingComponent from '../../components/common/LoadingComponent';
 import { SERVER_IP } from '../../../constants';

@@ -3,25 +3,38 @@ import { StyleSheet, Text, View, SafeAreaView, FlatList } from 'react-native';
 
 import { COLORS, SIZES, FONT } from '../../constants';
 
-import ListaNotificacoes from '../../data/notificacoes';
 import FlatListSeparator from '../components/common/FlatListSeparator';
 import NotificacaoItem from '../components/NotificacaoItem';
-import useGetFromDatabase from '../../data/getFromDatabase';
+import useGetFromDatabase from '../../data/useGetFromDatabase';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { SERVER_IP } from '../../constants';
+import LoadingComponent from '../components/common/LoadingComponent';
 
 const Notificacoes = () => {
-    //const {ListaNotificacoes, isLoading, error} = getFromDatabase("");
+    const { data, isLoading, error } = useGetFromDatabase("events")
+    const [ListaNotificacoes, setListaNotificacoes] = useState<any>([]);
+    useEffect(() => {
+        if (data) {
+            setListaNotificacoes(data);
+        }
+    }, [data])
 
     return (
         <SafeAreaView style={{ backgroundColor: COLORS.lightWhite }}>
             <View>
-                <FlatList
-                    contentContainerStyle={{ paddingBottom: 200 }}
-                    style={styles.list}
-                    data={ListaNotificacoes}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => <NotificacaoItem {...item} />}
-                    ItemSeparatorComponent={FlatListSeparator}
-                />
+                {isLoading ? (
+                    <LoadingComponent text='Carregando...' />
+                ) : (
+                    <FlatList
+                        contentContainerStyle={{ paddingBottom: 200 }}
+                        style={styles.list}
+                        data={ListaNotificacoes}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => <NotificacaoItem {...item} />}
+                        ItemSeparatorComponent={FlatListSeparator}
+                    />
+                )}
             </View>
         </SafeAreaView >
     );
