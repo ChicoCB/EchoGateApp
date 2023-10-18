@@ -46,28 +46,28 @@ const getListaTemporarios = (ListaCadastros: any) => {
 
 const Liberar = () => {
     const navigation = useNavigation<StackTypes>();
-    const { data, isLoading: isFetching, error } = useGetFromDatabase("users/all");
+    //const { data, isLoading: isFetching, error } = useGetFromDatabase("users/all");
 
     const [isUpdatingPerms, setIsUpdatingPerms] = useState(false);
     const [isUpdatingTemps, setIsUpdatingTemps] = useState(false);
     const [ListaPermanentes, setListaPermanentes] = useState<any>([]);
     const [ListaTemporarios, setListaTemporarios] = useState<any>([]);
 
-    useEffect(() => {
-        if (data) {
-            setListaPermanentes(getListaPermanentes(data));
-            setListaTemporarios(getListaTemporarios(data));
-        }
-    }, [data])
+    // useEffect(() => {
+    //     if (data) {
+    //         setListaPermanentes(getListaPermanentes(data));
+    //         setListaTemporarios(getListaTemporarios(data));
+    //     }
+    // }, [data])
 
     useFocusEffect(React.useCallback(() => {
-        updateListaPermanentes();
-        updateListaTemporarios();
+        updateListas();
+        //updateListaTemporarios();
     }, []))
 
-    const updateListaPermanentes = async () => {
+    const updateListas = async () => {
         try {
-            console.log("Atualizando Lista de Permanentes...")
+            console.log("Atualizando Listas...")
             const token = await AsyncStorage.getItem('token');
             const options: AxiosRequestConfig<any> = {
                 method: "get",
@@ -78,46 +78,49 @@ const Liberar = () => {
             };
 
             setIsUpdatingPerms(true);
+            setIsUpdatingTemps(true);
             const response = await axios.request(options);
             setListaPermanentes(getListaPermanentes(response.data));
-            console.log("Lista de permanentes atualizada.")
+            setListaTemporarios(getListaTemporarios(response.data));
+            console.log("Listas atualizadas.")
             // console.log(ListaPermanentes);
         } catch (error) {
             console.log(error);
         } finally {
             setIsUpdatingPerms(false);
-        }
-    }
-
-    const updateListaTemporarios = async () => {
-        try {
-            console.log("Atualizando Lista de Temporários...")
-            const token = await AsyncStorage.getItem('token');
-            const options: AxiosRequestConfig<any> = {
-                method: "get",
-                url: `http://${SERVER_IP}/users/all`,
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            };
-            setIsUpdatingTemps(true);
-            const response = await axios.request(options);
-            setListaTemporarios(getListaTemporarios(response.data));
-            console.log("Lista de temporários atualizada.")
-            //console.log(ListaPermanentes);
-        } catch (error) {
-            console.log(error);
-        } finally {
             setIsUpdatingTemps(false);
         }
     }
+
+    // const updateListaTemporarios = async () => {
+    //     try {
+    //         console.log("Atualizando Lista de Temporários...")
+    //         const token = await AsyncStorage.getItem('token');
+    //         const options: AxiosRequestConfig<any> = {
+    //             method: "get",
+    //             url: `http://${SERVER_IP}/users/all`,
+    //             headers: {
+    //                 "Authorization": `Bearer ${token}`
+    //             }
+    //         };
+    //         setIsUpdatingTemps(true);
+    //         const response = await axios.request(options);
+    //         setListaTemporarios(getListaTemporarios(response.data));
+    //         console.log("Lista de temporários atualizada.")
+    //         //console.log(ListaPermanentes);
+    //     } catch (error) {
+    //         console.log(error);
+    //     } finally {
+    //         setIsUpdatingTemps(false);
+    //     }
+    // }
 
     return (
         <SafeAreaView style={{ backgroundColor: COLORS.lightWhite, height: "100%" }}>
             <View style={{ height: "100%" }}>
                 <Text style={styles.listHeaderText}>Cadastros Permanentes</Text>
                 <View style={styles.listContainer}>
-                    {isFetching || isUpdatingPerms ? (
+                    {isUpdatingPerms ? (
                         <LoadingComponent text="Carregando..." />
                     ) : (
                         <FlatList
@@ -125,14 +128,14 @@ const Liberar = () => {
                             style={styles.flatList}
                             data={ListaPermanentes}
                             keyExtractor={(item) => item.id}
-                            renderItem={({ item }) => <AcessoPermanenteItem {...item} atualizarLista={() => updateListaPermanentes()} />}
+                            renderItem={({ item }) => <AcessoPermanenteItem {...item} atualizarLista={() => updateListas()} />}
                             ItemSeparatorComponent={FlatListSeparator}
                         />
                     )}
                 </View>
                 <Text style={styles.listHeaderText}>Cadastros Temporários</Text>
                 <View style={styles.listContainer}>
-                    {isFetching || isUpdatingTemps ? (
+                    {isUpdatingTemps ? (
                         <LoadingComponent text="Carregando..." />
                     ) : (
                         <FlatList
@@ -141,7 +144,7 @@ const Liberar = () => {
                             data={ListaTemporarios}
                             keyExtractor={(item) => item.id}
                             renderItem={({ item }) => <AcessoTemporarioItem {...item}
-                                atualizarLista={() => updateListaTemporarios()}
+                                atualizarLista={() => updateListas()}
                             />}
                             ItemSeparatorComponent={FlatListSeparator}
                         />

@@ -11,9 +11,10 @@ interface notificacao {
     userId: string;
     timestamp: string;
     description: string;
+    user: { name: string };
 }
 
-const NotificacaoItem = ({ userId, timestamp, description }: notificacao) => {
+const NotificacaoItem = ({ userId, timestamp, description, user }: notificacao) => {
     const formattedDate = new Date(timestamp).toLocaleDateString('en-GB', {
         day: '2-digit',
         month: '2-digit',
@@ -26,7 +27,7 @@ const NotificacaoItem = ({ userId, timestamp, description }: notificacao) => {
                 source={icons.bell}
             />
             <View style={styles.textContainer}>
-                <Text>{formattedDate}: {userId}</Text>
+                <Text>{formattedDate}: {user.name}</Text>
                 <Text>{description}</Text>
             </View>
             <FeatherIconButton featherIconName={"trash-2"} featherIconColor={"red"} />
