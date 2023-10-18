@@ -8,12 +8,27 @@ import TwoStateButton from '../components/common/TwoStateButton';
 import { useNavigation } from '@react-navigation/native';
 
 import { StackTypes } from '../routes/homestack.routes';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect, useState } from 'react';
+
+
 
 const Home = () => {
     const navigation = useNavigation<StackTypes>();
+    const [profileName, setProfileName] = useState<string | null>('Erro');
 
-    //Obter de alguma forma do perfil logado
-    const profile_name = ListaProfiles[0].name;
+    useEffect(() => {
+        const getStoredUsername = async () => {
+            try {
+                const username = await AsyncStorage.getItem('username');
+                setProfileName(username);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        getStoredUsername();
+    })
 
     return (
         <SafeAreaView style={{ backgroundColor: COLORS.lightWhite, height: "100%" }}>
@@ -22,7 +37,7 @@ const Home = () => {
                 contentContainerStyle={{ justifyContent: "center" }}
             >
                 <View style={styles.container}>
-                    <Text style={styles.userName}>Olá {profile_name},</Text>
+                    <Text style={styles.userName}>Olá {profileName},</Text>
                     <Text style={styles.welcomeMessage}>Bem vindo ao EchoGate</Text>
                 </View>
                 <View style={styles.cameraContainer}>

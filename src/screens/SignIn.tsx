@@ -46,10 +46,32 @@ const SignIn = () => {
             console.log("Obtendo token...")
             const accessToken = await axios.post(`http://${SERVER_IP}/users/login`, { email: email, password: password });
             console.log("Token obtido.")
-            console.log("Armazenando localmente token e remember...")
+
+            console.log("Obtendo dados de usuário...")
+            console.log(accessToken.data.token)
+            const userData = await axios.get(`http://${SERVER_IP}/users`, {
+                headers: {
+                    "Authorization": `Bearer ${accessToken.data.token}`
+                }
+            })
+            console.log("Dados obtidos.")
+
+            console.log("Armazenando localmente token, remember e dados...")
             await AsyncStorage.setItem('token', accessToken.data.token);
-            await AsyncStorage.setItem('remember', rememberCheckBox ? "true" : "false") //Precisa ser assim pq so armazena string
-            console.log("Token e remember armazenados.")
+            await AsyncStorage.setItem('remember', rememberCheckBox ? "true" : "false")
+            await AsyncStorage.setItem('username', userData.data.name);
+            await AsyncStorage.setItem('email', userData.data.email);
+            await AsyncStorage.setItem('id', userData.data.id);
+            if (userData.data.picture == null) {
+                await AsyncStorage.setItem('pfp', '');
+            } else {
+                await AsyncStorage.setItem('pfp', userData.data.picture);
+            }
+            if (userData.data.validFrom != null) {
+                await AsyncStorage.setItem('validFrom', userData.data.validFrom);
+            }
+            console.log("Token, remember e dados armazenados.")
+
             setPassword("");
             setEmail("");
             setRememberCheckBox(false);

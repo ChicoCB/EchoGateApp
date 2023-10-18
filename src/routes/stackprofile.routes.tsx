@@ -1,16 +1,30 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { Feather } from '@expo/vector-icons';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import Profile from '../screens/Profile';
+import AlterarDados from '../screens/AlterarDados';
 
 const Stack = createStackNavigator();
 
+type StackNavigation = {
+    AlterarDados: undefined;
+    Profile: undefined;
+}
+
+export type StackTypes = StackNavigationProp<StackNavigation>;
+
 const StackProfile = () => {
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator>
             <Stack.Screen
-                name="profile"
+                options={{ headerShown: false }}
+                name="Profile"
                 component={Profile}
+            />
+            <Stack.Screen
+                options={{ headerTitle: "Perfil" }}
+                name="AlterarDados"
+                component={AlterarDados}
             />
         </Stack.Navigator>
     )

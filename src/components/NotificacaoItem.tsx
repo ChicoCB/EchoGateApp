@@ -20,15 +20,6 @@ const NotificacaoItem = ({ userId, timestamp, description }: notificacao) => {
         year: 'numeric'
     });
 
-    const [userName, setUsername] = useState('');
-    const { data, isLoading, error } = useGetFromDatabase(`users/${userId}`);
-
-    useEffect(() => {
-        if (data) {
-
-        }
-    }, [data])
-
     return (
         <View style={styles.container}>
             <Image
