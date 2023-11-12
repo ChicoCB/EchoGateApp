@@ -10,6 +10,7 @@ import FeatherIconButton from '../components/common/FeatherIconButton';
 import TwoStateButton from '../components/common/TwoStateButton';
 import { TextInput } from 'react-native-gesture-handler';
 import CustomInput from '../components/common/customInput';
+import WebView from 'react-native-webview';
 
 const Camera = () => {
 
@@ -19,27 +20,8 @@ const Camera = () => {
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            <View style={cameraContainer(screenSize)}>
-                <Image
-                    source={images.noImageIcon}
-                    resizeMode='stretch'
-                    style={styles.camera}
-                />
-            </View>
-            <View style={btnTalkContainer(screenSize)}>
-                <FeatherIconButton
-                    featherIconName='mic'
-                    featherIconColor={COLORS.blue}
-                    featherIconSize={50}
-                    caption='Falar'
-                    captionStyle={{
-                        fontFamily: FONT.bold,
-                        fontSize: SIZES.medium,
-                        color: COLORS.blue,
-                        marginTop: 5,
-                        textAlign: "center",
-                    }}
-                />
+            <View style={{ height: "100%", width: "100%" }}>
+                <WebView source={{ uri: "http://jitsi.member.fsf.org/echogate-streaming3#config.prejoinPageEnabled=false&config.startWithVideoMuted=true&config.disableDeepLinking=true" }} />
             </View>
             <View style={btnTextContainer(screenSize)}>
                 <CustomInput
@@ -53,28 +35,12 @@ const Camera = () => {
     );
 }
 
-const cameraContainer = (screenSize: ScaledSize): ViewStyle => (
-    {
-        width: "100%",
-        height: screenSize.height - 170, //- tamanho da bottomTab
-        alignItems: "center",
-        justifyContent: "center"
-    }
-)
-
-const btnTalkContainer = (screenSize: ScaledSize): ViewStyle => (
-    {
-        position: "absolute",
-        top: screenSize.height - 280,
-        right: screenSize.width - 120
-    }
-)
-
 const btnTextContainer = (screenSize: ScaledSize): ViewStyle => (
     {
         position: "absolute",
-        top: screenSize.height - 260,
-        left: screenSize.width - 150
+        top: 30,
+        width: "100%",
+        margin: 30
     }
 )
 
