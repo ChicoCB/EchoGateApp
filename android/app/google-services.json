@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1022868794599",
+    "project_id": "echogateapp",
+    "storage_bucket": "echogateapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022868794599:android:35c3c5b36ebac1702fc642",
+        "android_client_info": {
+          "package_name": "com.anonymous.EchoGateApp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5Hq9zRrCTOSDDCTHXkTKsMJTB2LDbWFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

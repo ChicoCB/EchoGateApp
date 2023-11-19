@@ -21,7 +21,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.anonymous.EchoGateApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -38,7 +43,22 @@
         {
           "photosPermission": "Allow $(PRODUCT_NAME) to access your photo galery."
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 33,
+            "targetSdkVersion": 33,
+            "buildToolsVersion": "33.0.0"
+          }
+        }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "0e9da1f1-90fd-40bf-b642-260cd1cc751f"
+      }
+    }
   }
 }

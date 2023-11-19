@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image } from 'react-native';
 import { images, COLORS, FONT, SIZES, icons } from '../../constants';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import CustomInput from '../components/common/customInput';
 import TextButton from '../components/common/TextButton';
@@ -9,32 +9,17 @@ import { useNavigation } from '@react-navigation/native';
 
 import { StackTypes } from '../routes/stacksignin.routes';
 
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import LoadingComponent from '../components/common/LoadingComponent';
 import { SERVER_IP } from '../../constants';
-import { Header } from '@react-navigation/stack';
-import useGetFromDatabase from '../../data/useGetFromDatabase';
 
 const SignIn = () => {
     const navigation = useNavigation<StackTypes>();
 
     const [isLoggingIn, setIsLoggingIn] = useState(false);
-    const [isRemembered, setIsRemembered] = useState(false);
-
-    const checkIsRemembered = async () => {
-        try {
-            const remember = await AsyncStorage.getItem('remember');
-            console.log(remember)
-            return remember;
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    //COMO COMPARAR PROMESSA COM STRING?
-    const userData = useGetFromDatabase("users");
 
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
