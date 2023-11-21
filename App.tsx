@@ -2,8 +2,9 @@ import Routes from './src/routes/index'
 import { useFonts } from 'expo-font';
 import messaging from '@react-native-firebase/messaging';
 import { useEffect } from 'react';
-import { Alert } from 'react-native';
 import { PermissionsAndroid } from 'react-native';
+import notifee from '@notifee/react-native';
+import { AndroidImportance } from '@notifee/react-native';
 
 PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
 
@@ -11,6 +12,7 @@ export default function App() {
 
   async function requestUserPermission() {
     const authStatus = await messaging().requestPermission();
+    await notifee.requestPermission();
     const enabled =
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
@@ -54,7 +56,22 @@ export default function App() {
     });
 
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      // Create a channel (required for Android)
+      const channelId = await notifee.createChannel({
+        id: 'default',
+        name: 'Default Channel',
+        vibration: true,
+        importance: AndroidImportance.HIGH
+      });
+
+      // Display a notification
+      await notifee.displayNotification({
+        title: 'Echo Gate',
+        body: remoteMessage.notification?.body,
+        android: {
+          channelId,
+        },
+      });
     });
 
     return unsubscribe;
