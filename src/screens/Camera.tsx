@@ -15,7 +15,7 @@ import React from 'react';
 
 import { SERVER_IP } from '../../constants';
 
-const ws = new WebSocket('ws://192.168.0.173:3000/websocket');
+const ws = new WebSocket(`ws://${SERVER_IP}/websocket`);
 
 ws.onopen = () => {
     // connection opened
@@ -45,8 +45,8 @@ const Camera = () => {
     ws.onmessage = e => {
         // a message was received
         if (isFocused) {
-            console.log(e.data);
-            setSubtitles(e.data);
+            console.log(JSON.parse(e.data));
+            setSubtitles(JSON.parse(e.data).ddata);
         }
     };
 

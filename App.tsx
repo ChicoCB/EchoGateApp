@@ -22,6 +22,7 @@ export default function App() {
 
   const getToken = async () => {
     const token = await messaging().getToken();
+    await messaging().subscribeToTopic("bell")
     console.log("Firebase token:", token);
   }
 
