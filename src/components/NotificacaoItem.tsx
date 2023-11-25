@@ -27,7 +27,7 @@ const NotificacaoItem = ({ userId, timestamp, description, user }: notificacao) 
                 source={icons.bell}
             />
             <View style={styles.textContainer}>
-                <Text>{formattedDate}: {user.name}</Text>
+                <Text>{formattedDate}</Text>
                 <Text>{description}</Text>
             </View>
             <FeatherIconButton featherIconName={"trash-2"} featherIconColor={"red"} />

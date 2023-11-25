@@ -21,7 +21,7 @@ const useGetFromDatabase = (endpoint: string) => {
 
         try {
             const response = await axios.request(options);
-            setData(response.data)
+            setData(response.data);
             setIsLoading(false);
         } catch (error) {
             setError(error);
