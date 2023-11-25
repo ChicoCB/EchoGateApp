@@ -6,6 +6,7 @@ import { COLORS, SIZES, FONT, icons } from './../../constants';
 
 import FeatherIconButton from './common/FeatherIconButton';
 import useGetFromDatabase from '../../data/useGetFromDatabase';
+import { Feather } from '@expo/vector-icons';
 
 interface notificacao {
     userId: string;
@@ -23,14 +24,11 @@ const NotificacaoItem = ({ userId, timestamp, description, user }: notificacao) 
 
     return (
         <View style={styles.container}>
-            <Image
-                source={icons.bell}
-            />
+            <Feather name="bell" size={24} color="gray" />
             <View style={styles.textContainer}>
                 <Text>{formattedDate}</Text>
                 <Text>{description}</Text>
             </View>
-            <FeatherIconButton featherIconName={"trash-2"} featherIconColor={"red"} />
         </View>
     )
 }
@@ -48,7 +46,7 @@ const styles = StyleSheet.create({
         flex: 0.85,
         height: "100%",
         justifyContent: "center",
-        marginLeft: 5
+        marginLeft: 20
     },
 });
 

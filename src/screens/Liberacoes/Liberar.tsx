@@ -124,7 +124,7 @@ const Liberar = () => {
                         <LoadingComponent text="Carregando..." />
                     ) : (
                         <FlatList
-                            contentContainerStyle={{ paddingBottom: 40 }}
+                            contentContainerStyle={{ paddingBottom: 80 }}
                             style={styles.flatList}
                             data={ListaPermanentes}
                             keyExtractor={(item) => item.id}
