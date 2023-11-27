@@ -11,11 +11,17 @@ import { StackTypes } from '../routes/homestack.routes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 
-
+import { AxiosRequestConfig } from 'axios';
+import { SERVER_IP } from '../../constants';
+import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
+import React from 'react';
+import { Alert } from 'react-native';
 
 const Home = () => {
     const navigation = useNavigation<StackTypes>();
     const [profileName, setProfileName] = useState<string | null>('Erro');
+    const [lockState, setLockState] = useState<string>('');
 
     useEffect(() => {
         const getStoredUsername = async () => {
@@ -29,6 +35,83 @@ const Home = () => {
 
         getStoredUsername();
     })
+
+    const getLockState = async () => {
+        try {
+            console.log("Obtendo estado da fechadura...")
+            const token = await AsyncStorage.getItem('token');
+            const options: AxiosRequestConfig<any> = {
+                method: "post",
+                url: `http://${SERVER_IP}/lock-state`,
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            };
+            const response = await axios.request(options);
+            console.log("Estado da fechadura obtido: " + response.data)
+            setLockState(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useFocusEffect(React.useCallback(() => {
+        getLockState();
+    }, []))
+
+    const unlock = async () => {
+        try {
+            console.log("Abrindo fechadura...")
+            const token = await AsyncStorage.getItem('token');
+            const options: AxiosRequestConfig<any> = {
+                method: "post",
+                url: `http://${SERVER_IP}/unlock`,
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            };
+            await axios.request(options);
+            setLockState("unlocked");
+            console.log("Fechadura aberta.");
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const lock = async () => {
+        try {
+            console.log("Fechando fechadura...")
+            const token = await AsyncStorage.getItem('token');
+            const options: AxiosRequestConfig<any> = {
+                method: "post",
+                url: `http://${SERVER_IP}/lock`,
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            };
+            await axios.request(options);
+            setLockState("locked");
+            console.log("Fechadura fechada.");
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const handleLockPress = () => {
+        if (lockState === "") {
+            Alert.alert("Sua fechadura está desconectada. Recarregue esta página.")
+            console.log("Fechadura desconectada.")
+            return;
+        }
+
+        if (lockState === "locked") {
+            unlock();
+        }
+        else {
+            lock();
+        }
+
+    }
 
     return (
         <SafeAreaView style={{ backgroundColor: COLORS.lightWhite, height: "100%" }}>
@@ -52,14 +135,19 @@ const Home = () => {
                 <View style={styles.fechaduraContainer}>
                     <Text style={styles.fechaduraMessage}>Controle sua fechadura:</Text>
                     <View style={styles.buttonContainer}>
-                        <TwoStateButton
-                            featherIconName1='unlock'
-                            featherIconName2='lock'
-                            featherIconColor='blue'
-                            featherIconSize={45}
-                            caption1='Travar'
-                            caption2='Destravar'
-                        />
+                        {lockState !== "" ?
+                            <TwoStateButton
+                                featherIconName1='unlock'
+                                featherIconName2='lock'
+                                featherIconColor='blue'
+                                featherIconSize={45}
+                                caption1='Travar'
+                                caption2='Destravar'
+                                startOnSecondState={lockState === 'unlocked'}
+                                handlePress={() => handleLockPress()}
+                            /> :
+                            <Text style={styles.text2}>Sua fechadura está desconectada. Recarregue esta página.</Text>
+                        }
                     </View>
                 </View>
             </ScrollView>
@@ -132,6 +220,13 @@ const styles = StyleSheet.create({
     },
     text: {
         fontFamily: FONT.bold,
+        fontSize: SIZES.medium,
+        color: COLORS.primary,
+        marginTop: 5,
+        textAlign: "center"
+    },
+    text2: {
+        fontFamily: FONT.regular,
         fontSize: SIZES.medium,
         color: COLORS.primary,
         marginTop: 5,

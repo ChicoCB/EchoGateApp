@@ -12,8 +12,9 @@ import TextButton from '../components/common/TextButton';
 import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
 import React from 'react';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SERVER_IP } from '../../constants';
+import { AxiosRequestConfig } from 'axios';
 
 const ws = new WebSocket(`ws://${SERVER_IP}/websocket`);
 
@@ -52,8 +53,20 @@ const Camera = () => {
 
     const sendText = async () => {
         try {
+            const token = await AsyncStorage.getItem('token');
+            const options: AxiosRequestConfig<any> = {
+                method: "post",
+                url: `http://${SERVER_IP}/send-text`,
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: {
+                    text: text,
+                }
+            };
             console.log("Enviando texto...")
-            await axios.post(`http://${SERVER_IP}/send-text`, { text: text });
+            await axios.request(options);
+            onChangeText('');
             console.log("Enviado.")
         } catch (error) {
             alert(error);
@@ -62,10 +75,15 @@ const Camera = () => {
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            <View style={{ height: "100%", width: "100%" }}>
-                <WebView source={{ uri: "http://jitsi.member.fsf.org/echogate-streaming3#config.prejoinPageEnabled=false&config.startWithVideoMuted=true&config.disableDeepLinking=true" }} javaScriptEnabled={true} mediaPlaybackRequiresUserAction={false} allowsInlineMediaPlayback={true}
+            <View style={styles.cameraContainer}>
+                <WebView source={{ uri: "http://142.93.4.38:80/camera2/stream.mjpg" }} javaScriptEnabled={true} mediaPlaybackRequiresUserAction={false} allowsInlineMediaPlayback={true}
                 />
             </View>
+            <View style={styles.jitsiContainer}>
+                <WebView source={{ uri: "https://meet.mayfirst.org/echogate-streaming#config.prejoinPageEnabled=false&config.startWithVideoMuted=true&config.disableDeepLinking=true" }} javaScriptEnabled={true} mediaPlaybackRequiresUserAction={false} allowsInlineMediaPlayback={true}
+                />
+            </View>
+            <View style={styles.aux} />
             <View style={styles.sendTextContainer}>
                 <CustomInput
                     value={text}
@@ -90,6 +108,25 @@ const Camera = () => {
 }
 
 const styles = StyleSheet.create({
+    aux: {
+        position: "absolute",
+        bottom: 0,
+        left: "61%",
+        height: "11%",
+        width: "100%",
+        backgroundColor: "#000000"
+    },
+    cameraContainer: {
+        width: "100%",
+        height: "100%",
+    },
+    jitsiContainer: {
+        position: "absolute",
+        bottom: 0,
+        left: "40%",
+        height: "11%",
+        width: "100%"
+    },
     subtitlesContainer: {
         width: "95%",
         height: 100,
@@ -102,7 +139,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         top: 10,
         width: "95%",
-        right: 10
+        right: 10,
     },
     subtitles: {
         fontFamily: FONT.regular,
@@ -116,10 +153,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-    camera: {
-        width: "100%",
-        height: "100%"
-    }
 });
 
 export default Camera;

@@ -10,15 +10,40 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { SERVER_IP } from '../../constants';
 import LoadingComponent from '../components/common/LoadingComponent';
+import { useFocusEffect } from '@react-navigation/native';
+import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AxiosRequestConfig } from 'axios';
 
 const Notificacoes = () => {
-    const { data, isLoading, error } = useGetFromDatabase("events")
     const [ListaNotificacoes, setListaNotificacoes] = useState<any>([]);
-    useEffect(() => {
-        if (data) {
-            setListaNotificacoes(data);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useFocusEffect(React.useCallback(() => {
+        atualizaNotificacoes();
+    }, []))
+
+    const atualizaNotificacoes = async () => {
+        try {
+            console.log("Atualizando Notificacoes...")
+            const token = await AsyncStorage.getItem('token');
+            const options: AxiosRequestConfig<any> = {
+                method: "get",
+                url: `http://${SERVER_IP}/events`,
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            };
+            setIsLoading(true);
+            const response = await axios.request(options);
+            setListaNotificacoes(response.data);
+            console.log("Notificacoes atualizadas.")
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
         }
-    }, [data])
+    }
 
     return (
         <SafeAreaView style={{ backgroundColor: COLORS.lightWhite }}>
@@ -27,7 +52,7 @@ const Notificacoes = () => {
                     <LoadingComponent text='Carregando...' />
                 ) : (
                     <FlatList
-                        contentContainerStyle={{ paddingBottom: 200 }}
+                        contentContainerStyle={{ paddingBottom: 500 }}
                         style={styles.list}
                         data={ListaNotificacoes}
                         keyExtractor={(item) => item.id}

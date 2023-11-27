@@ -19,7 +19,9 @@ const NotificacaoItem = ({ userId, timestamp, description, user }: notificacao) 
     const formattedDate = new Date(timestamp).toLocaleDateString('en-GB', {
         day: '2-digit',
         month: '2-digit',
-        year: 'numeric'
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
     });
 
     return (

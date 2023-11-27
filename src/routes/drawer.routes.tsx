@@ -15,16 +15,28 @@ const Drawer = createDrawerNavigator();
 
 import { StackTypes } from "../screens/SignUp";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
     const navigation = useNavigation<StackTypes>();
+
+    const signOut = async () => {
+        try {
+            console.log("Removendo token...")
+            await AsyncStorage.removeItem('token');
+            console.log("Token removido");
+            navigation.navigate("SignIn")
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <DrawerContentScrollView {...props}>
             <DrawerItemList {...props} />
             <DrawerItem
                 label="Sair"
-                onPress={() => navigation.navigate("SignIn")}
+                onPress={() => signOut()}
                 icon={({ size, color }) => <Feather name="log-out" size={size} color={color} />}
             />
         </DrawerContentScrollView>

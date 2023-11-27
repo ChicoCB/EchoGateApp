@@ -23,9 +23,14 @@ export default function App() {
   }
 
   const getToken = async () => {
-    const token = await messaging().getToken();
-    await messaging().subscribeToTopic("bell")
-    console.log("Firebase token:", token);
+    try {
+      console.log("Obtendo token do firebase...");
+      const token = await messaging().getToken();
+      console.log("Token do firebase obtido.")
+      await messaging().subscribeToTopic("bell")
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {

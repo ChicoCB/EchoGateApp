@@ -13,12 +13,13 @@ interface props {
     featherIconColor?: string;
     caption1?: string;
     caption2?: string;
+    startOnSecondState?: boolean;
     handlePress?: () => void;
 }
 
-const TwoStateButton = ({ featherIconName1, featherIconName2, featherIconSize = 24, featherIconColor = "black", caption1 = "", caption2 = "", handlePress = () => null }: props) => {
+const TwoStateButton = ({ featherIconName1, featherIconName2, featherIconSize = 24, featherIconColor = "black", caption1 = "", caption2 = "", startOnSecondState = false, handlePress = () => null }: props) => {
 
-    const [toggle, setToggle] = useState(false);
+    const [toggle, setToggle] = useState(startOnSecondState);
     let currentIcon = "";
     let currentCaption = "";
 
@@ -29,7 +30,7 @@ const TwoStateButton = ({ featherIconName1, featherIconName2, featherIconSize = 
         <View style={styles.container}>
             <TouchableOpacity
                 style={button(featherIconSize)}
-                onPress={() => { handlePress; setToggle(!toggle) }}>
+                onPress={() => { handlePress(); setToggle(!toggle) }}>
                 <Icon
                     style={styles.btnImg}
                     name={currentIcon}
