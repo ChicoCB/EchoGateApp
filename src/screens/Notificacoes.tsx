@@ -36,7 +36,8 @@ const Notificacoes = () => {
             };
             setIsLoading(true);
             const response = await axios.request(options);
-            setListaNotificacoes(response.data);
+            const lastNotifications = response.data.slice(0, 10);
+            setListaNotificacoes(lastNotifications);
             console.log("Notificacoes atualizadas.")
         } catch (error) {
             console.log(error);

@@ -47,7 +47,6 @@ const ProfileDrawer = () => {
     return (
         <Drawer.Navigator
             screenOptions={{
-                headerRight: () => <HeaderButton iconUrl={images.profile} handlePress={() => null} />,
                 headerTitle: ""
             }}
             drawerContent={(props) => <CustomDrawerContent {...props} />}
