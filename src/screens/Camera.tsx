@@ -16,20 +16,36 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SERVER_IP } from '../../constants';
 import { AxiosRequestConfig } from 'axios';
 
-const ws = new WebSocket(`ws://${SERVER_IP}/websocket`);
-
-ws.onopen = () => {
-    // connection opened
-    ws.send(JSON.stringify({ event: 'appClient', data: 'registerAppClient' }))
-};
-
 const Camera = () => {
 
     //Obter de alguma forma do perfil logado
     const screenSize = useWindowDimensions();
     const [text, onChangeText] = useState('');
-    const [isFocused, setIsFocused] = useState(false);
     const [subtitles, setSubtitles] = useState('');
+
+    const connect = () => {
+        let ws = new WebSocket(`ws://${SERVER_IP}/websocket`);
+
+        ws.onopen = () => {
+            // connection opened
+
+            console.log("Registrando appClient")
+            ws.send(JSON.stringify({ event: 'appClient', data: 'registerAppClient' }))
+        };
+        ws.onmessage = e => {
+            // a message was received
+            console.log(JSON.parse(e.data));
+            setSubtitles(JSON.parse(e.data).ddata);
+            console.log("Mensagem recebida: " + JSON.parse(e.data).ddata);
+
+        };
+        ws.onclose = async (e) => {
+            console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+            await new Promise((resolve) => setTimeout(resolve, 3000))
+            connect();
+        };
+
+    }
 
     useEffect(() => {
         const effect = async () => {
@@ -40,16 +56,10 @@ const Camera = () => {
     }, []);
 
     useFocusEffect(React.useCallback(() => {
-        setIsFocused(true);
+        console.log("Foco na tela camera")
+        connect();
     }, []))
 
-    ws.onmessage = e => {
-        // a message was received
-        if (isFocused) {
-            console.log(JSON.parse(e.data));
-            setSubtitles(JSON.parse(e.data).ddata);
-        }
-    };
 
     const sendText = async () => {
         try {
@@ -114,7 +124,7 @@ const styles = StyleSheet.create({
         left: "61%",
         height: "11%",
         width: "100%",
-        backgroundColor: "#000000"
+        backgroundColor: "#0e0e0e"
     },
     cameraContainer: {
         width: "100%",
@@ -145,7 +155,8 @@ const styles = StyleSheet.create({
         fontFamily: FONT.regular,
         fontSize: SIZES.large,
         color: COLORS.lightWhite,
-        textAlign: "center"
+        textAlign: "center",
+        backgroundColor: "#000000"
     },
     safeArea: {
         backgroundColor: COLORS.lightWhite,

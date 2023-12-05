@@ -31,9 +31,7 @@ const SignIn = () => {
             console.log("Obtendo token...")
             const accessToken = await axios.post(`http://${SERVER_IP}/users/login`, { email: email, password: password });
             console.log("Token obtido.")
-
             console.log("Obtendo dados de usuário...")
-            console.log(accessToken.data.token)
             const userData = await axios.get(`http://${SERVER_IP}/users`, {
                 headers: {
                     "Authorization": `Bearer ${accessToken.data.token}`

@@ -16,7 +16,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.EchoGateApp"
+      "bundleIdentifier": "com.anonymous.EchoGateApp",
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +30,8 @@
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.anonymous.EchoGateApp"
+      "package": "com.anonymous.EchoGateApp",
+      "runtimeVersion": "1.0.0"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -60,6 +64,9 @@
       "eas": {
         "projectId": "0e9da1f1-90fd-40bf-b642-260cd1cc751f"
       }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/0e9da1f1-90fd-40bf-b642-260cd1cc751f"
     }
   }
 }
